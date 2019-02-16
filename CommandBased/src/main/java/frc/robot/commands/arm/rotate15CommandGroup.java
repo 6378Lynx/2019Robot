@@ -23,7 +23,7 @@ public class rotate15CommandGroup extends CommandGroup {
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new rotateDegCommand(RobotMap.ticks15deg));
+    addSequential(new RotateDegCommand(RobotMap.ticks15deg));
     addSequential(new engageDiscBrakeCommand());
 
     // To run multiple commands at the same time,

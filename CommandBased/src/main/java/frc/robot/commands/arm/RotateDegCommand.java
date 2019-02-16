@@ -7,23 +7,25 @@
 
 package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import com.team254.lib.util.motion.*;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import com.team254.lib.util.motion.*;
 
 
 
-public class rotateDegCommand extends TimedCommand {
+public class RotateDegCommand extends Command {
   
   private final MotionProfile profile;
+  private double setPoint;
 
-  public rotateDegCommand(double setPosition)
+  public RotateDegCommand(double setPosition)
   {
       super(5);
       requires(Robot.shoulderSubsystem);
       MotionProfileConstraints constraints = new MotionProfileConstraints(RobotMap.maxVel, RobotMap.maxAccel);
 
+      setPoint = setPosition;
 
       profile = MotionProfileGenerator.generateProfile(
                     constraints, 
@@ -41,7 +43,7 @@ public class rotateDegCommand extends TimedCommand {
   @Override
   protected void execute() {
     double t = timeSinceInitialized();
-    Robot.shoulderSubsystem.setDegrees(profile.stateByTimeClamped(t).pos());
+    Robot.shoulderSubsystem.setSetpoint(setPoint);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -56,14 +58,13 @@ public class rotateDegCommand extends TimedCommand {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.shoulderSubsystem.pid.reset();
-    Robot.shoulderSubsystem.pid.resetIntegrator();
-    Robot.shoulderSubsystem.reset();
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+
   }
 }

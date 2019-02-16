@@ -54,6 +54,13 @@ public class RobotMap {
   public static final   int     XBOX_backButton   =  7;
   public static final   int     XBOX_startButton  =  8;
 
+  //Arm PID Components
+  public static final double armKP = 0;
+  public static final double armKI = 0;
+  public static final double armKD = 0;
+  public static final double armKf = 0;
+    //as much as feed forward is nice and all, I have never used it in any of my PID's. Friction takes care of most of it.
+
   //Components for Arm Torque Calculation **FILLER VALUES, SUBSITUTE REAL NUMBERS - USE SI UNITS
   public static final   double  armMass           = 12.5;
   public static final   double  centreOfMass      = 0.79;
@@ -61,12 +68,11 @@ public class RobotMap {
   public static final   double  gearRatio_2       = 16/66;
   public static final   double  gearRatio         = gearRatio_1*gearRatio_2;
   public static final   double  scaleFactor       = (4096*gearRatio)/360;
-  public static final   double  stallTorque       = 1.4;
-
+  public static final double stallTorque = 1.4;
 
   //PRESET ENCODER READINGS
   public static final   double  ticks15deg        = 200;
-  
+
   //PID, Motion Profile
   public static final   double  maxAccel          = 1;
   public static final   double  maxVel            = 10;
