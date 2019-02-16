@@ -20,6 +20,6 @@ public class stopArm extends InstantCommand {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.shoulderSubsystem.shoulder.set(0);
+    Robot.shoulderSubsystem.setSetpoint(0);
   }
 }

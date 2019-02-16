@@ -24,19 +24,18 @@ public class testArm2 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.shoulderSubsystem.shoulder.set(-0.4);
+    Robot.shoulderSubsystem.setSetpoint(-0.4);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.shoulderSubsystem.getLimitSwitch2();
+    return Robot.shoulderSubsystem.isBottomLimit();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.shoulderSubsystem.shoulder.set(0);
   }
 
   // Called when another command which requires one or more of the same
