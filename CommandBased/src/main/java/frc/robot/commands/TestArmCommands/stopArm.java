@@ -5,28 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.TestArmCommands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class partialArmExtendCommand extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
-  public partialArmExtendCommand() {
+public class stopArm extends InstantCommand {
+  public stopArm() {
     super();
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.pneumaticSubsystem);
+    requires(Robot.shoulderSubsystem);
   }
 
-  // Called once when the command executes
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.pneumaticSubsystem.partialArmExtend();
+    Robot.shoulderSubsystem.shoulder.set(0);
   }
-
 }

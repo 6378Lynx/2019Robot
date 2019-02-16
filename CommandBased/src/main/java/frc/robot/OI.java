@@ -12,11 +12,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.TestArmCommands.backArmTestCommand;
-//import frc.robot.commands.activateClawCommand;
 import frc.robot.commands.TestArmCommands.fwdArmTestCommand;
 import frc.robot.commands.TestArmCommands.stopArmTestCommand;
-//import frc.robot.commands.testArm2;
-//import frc.robot.commands.stopArm;
+
 
 
 /**

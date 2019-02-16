@@ -5,31 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
-import edu.wpi.first.wpilibj.command.TimedCommand;
+package frc.robot.commands.TestArmCommands;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import com.team254.lib.util.motion.*;
 
-
-
-public class rotateDegCommand extends TimedCommand {
-  
-  private final MotionProfile profile;
-
-  public rotateDegCommand(double setPosition)
-  {
-      super(5);
-      requires(Robot.shoulderSubsystem);
-      MotionProfileConstraints constraints = new MotionProfileConstraints(RobotMap.maxVel, RobotMap.maxAccel);
-
-
-      profile = MotionProfileGenerator.generateProfile(
-                    constraints, 
-                    new MotionProfileGoal(setPosition),
-                    new MotionState(0,Robot.shoulderSubsystem.getPos(),0,0));
-
+public class testArm extends Command {
+  public testArm() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.shoulderSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -40,25 +23,19 @@ public class rotateDegCommand extends TimedCommand {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double t = timeSinceInitialized();
-    Robot.shoulderSubsystem.setDegrees(profile.stateByTimeClamped(t).pos());
+    Robot.shoulderSubsystem.shoulder.set(0.4);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-
-    double t = timeSinceInitialized();
-    return profile.stateByTimeClamped(t).coincident(profile.endState());
-
+    return Robot.shoulderSubsystem.getLimitSwitch1();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.shoulderSubsystem.pid.reset();
-    Robot.shoulderSubsystem.pid.resetIntegrator();
-    Robot.shoulderSubsystem.reset();
+    Robot.shoulderSubsystem.shoulder.set(0);
   }
 
   // Called when another command which requires one or more of the same

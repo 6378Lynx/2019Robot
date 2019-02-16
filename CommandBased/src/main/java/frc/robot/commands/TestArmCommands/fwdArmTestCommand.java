@@ -8,9 +8,9 @@
 package frc.robot.commands.TestArmCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.testArm;
-import frc.robot.commands.engageDiscBrakeCommand;
-import frc.robot.commands.disengageDiscBrakeCommand;
+import frc.robot.commands.PneumaticCommands.engageDiscBrakeCommand;
+import frc.robot.commands.TestArmCommands.testArm;
+import frc.robot.commands.PneumaticCommands.disengageDiscBrakeCommand;
 
 
 public class fwdArmTestCommand extends CommandGroup {

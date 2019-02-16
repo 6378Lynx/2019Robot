@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.rotateDegCommand;
-import frc.robot.commands.engageDiscBrakeCommand;
+import frc.robot.commands.ArmCommands.rotateDegCommand;
+import frc.robot.commands.PneumaticCommands.engageDiscBrakeCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
