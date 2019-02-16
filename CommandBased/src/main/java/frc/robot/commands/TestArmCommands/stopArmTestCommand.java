@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.TestArmCommands;
+package frc.robot.commands.testArmCommands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.PneumaticCommands.engageDiscBrakeCommand;
-import frc.robot.commands.TestArmCommands.stopArm;
+import frc.robot.commands.pneumaticCommands.engageDiscBrakeCommand;
+import frc.robot.commands.testArmCommands.stopArm;
 
 public class stopArmTestCommand extends CommandGroup {
   /**
