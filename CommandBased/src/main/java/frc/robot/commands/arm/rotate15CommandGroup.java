@@ -5,26 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.testArmCommands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.pneumaticCommands.engageDiscBrakeCommand;
-import frc.robot.commands.testArmCommands.testArm;
-import frc.robot.commands.pneumaticCommands.disengageDiscBrakeCommand;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.commands.pneumatic.engageDiscBrakeCommand;
 
-
-public class fwdArmTestCommand extends CommandGroup {
+public class rotate15CommandGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public fwdArmTestCommand() {
+  public rotate15CommandGroup() {
+    requires(Robot.pneumaticSubsystem);
+    requires(Robot.shoulderSubsystem);
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new disengageDiscBrakeCommand());
-    addSequential(new testArm());
+    addSequential(new rotateDegCommand(RobotMap.ticks15deg));
     addSequential(new engageDiscBrakeCommand());
+
+    // To run multiple commands at the same time,
+    // use addParallel()
+    // e.g. addParallel(new Command1());
+    // addSequential(new Command2());
+    // Command1 and Command2 will run in parallel.
 
     // A command group will require all of the subsystems that each member
     // would require.

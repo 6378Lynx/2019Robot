@@ -5,29 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.testArmCommands;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.pneumaticCommands.engageDiscBrakeCommand;
-import frc.robot.commands.testArmCommands.stopArm;
+import frc.robot.commands.pneumatic.disengageDiscBrakeCommand;
+import frc.robot.commands.pneumatic.engageDiscBrakeCommand;
 
-public class stopArmTestCommand extends CommandGroup {
+
+public class fwdArmTestCommand extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public stopArmTestCommand() {
+  public fwdArmTestCommand() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new stopArm());
+    addSequential(new disengageDiscBrakeCommand());
+    addSequential(new testArm());
     addSequential(new engageDiscBrakeCommand());
-
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
 
     // A command group will require all of the subsystems that each member
     // would require.

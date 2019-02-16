@@ -5,28 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.pneumaticCommands;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class activateClawCommand extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
-  public activateClawCommand() {
+public class stopArm extends InstantCommand {
+  public stopArm() {
     super();
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.pneumaticSubsystem);
+    requires(Robot.shoulderSubsystem);
   }
 
-  // Called once when the command executes
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.pneumaticSubsystem.activateClaw();
+    Robot.shoulderSubsystem.shoulder.set(0);
   }
-
 }

@@ -5,7 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.testArmCommands;
+package frc.robot.commands.test;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 

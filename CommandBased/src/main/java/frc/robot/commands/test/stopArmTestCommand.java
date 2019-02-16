@@ -5,26 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.armCommands;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.armCommands.rotateDegCommand;
-import frc.robot.commands.pneumaticCommands.engageDiscBrakeCommand;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.commands.pneumatic.engageDiscBrakeCommand;
 
-public class rotate15CommandGroup extends CommandGroup {
+public class stopArmTestCommand extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public rotate15CommandGroup() {
-    requires(Robot.pneumaticSubsystem);
-    requires(Robot.shoulderSubsystem);
+  public stopArmTestCommand() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new rotateDegCommand(RobotMap.ticks15deg));
+    addSequential(new stopArm());
     addSequential(new engageDiscBrakeCommand());
 
     // To run multiple commands at the same time,

@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.pneumaticCommands;
+package frc.robot.commands.pneumatic;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * Add your docs here.
+ * Full extends the ar
  */
-public class disengageDiscBrakeCommand extends InstantCommand {
+public class fullArmExtendCommand extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public disengageDiscBrakeCommand() {
+  public fullArmExtendCommand() {
     super();
     // Use requires() here to declare subsystem dependencies
     requires(Robot.pneumaticSubsystem);
@@ -26,7 +26,7 @@ public class disengageDiscBrakeCommand extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.pneumaticSubsystem.disengageDiscBrake();
+    Robot.pneumaticSubsystem.fullArmExtend();
   }
 
 }

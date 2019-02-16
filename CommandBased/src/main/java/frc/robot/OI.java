@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.testArmCommands.backArmTestCommand;
-import frc.robot.commands.testArmCommands.fwdArmTestCommand;
-import frc.robot.commands.testArmCommands.stopArmTestCommand;
+import frc.robot.commands.test.backArmTestCommand;
+import frc.robot.commands.test.fwdArmTestCommand;
+import frc.robot.commands.test.stopArmTestCommand;
 
 
 
