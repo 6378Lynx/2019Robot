@@ -24,17 +24,20 @@ public class ShoulderSubsystem extends Subsystem {
   // here. Call these from Commands.
   public  Spark        shoulder         = new Spark(RobotMap.shoulderPort);
   private Encoder      encoder          = new Encoder(RobotMap.encoderPortA, RobotMap.encoderPortB, false, Encoder.EncodingType.k4X);
-  private DigitalInput fwdLimitSwitch   = new DigitalInput(RobotMap.limitSwitch1Port);
-  private DigitalInput backLimitSwitch  = new DigitalInput(RobotMap.limitSwitch2Port);
-
-
+  private DigitalInput topLimitSwitch   = new DigitalInput(RobotMap.limitSwitch1Port);
+  private DigitalInput bottomLimitSwitch  = new DigitalInput(RobotMap.limitSwitch2Port);
+  private double kP         = RobotMap.kP;
+  private double kI         = RobotMap.kI;
+  private double kD         = RobotMap.kD;
+  private double kF         = RobotMap.kF;
+  private double currentTime;
+  private double prevTime   = Double.NaN;
   //adjust first and fourth 0's to tune PID
   //CheesyPID = SynchronousPIDF from 254, renamed because it was confusing
   //Change 0's to tune PID
-  public CheesyPID pid = new CheesyPID(0,0,0,0);
+  public CheesyPID pid = new CheesyPID(kP,kI,kD,kF);
 
-  double currentTime;
-  double prevTime = Double.NaN;
+
 
 
   public ShoulderSubsystem(){
@@ -43,7 +46,8 @@ public class ShoulderSubsystem extends Subsystem {
   }
 
   //Feedforward Calculation, Added onto PID output
-  public double kf(){
+  //Uses the Centre Of Mass only when arm is retracted fully, as you only rotate when the arm is retracted otherwise you break frame perimeter
+  private double feedforward_voltage(){
     //mgcos(theta)*centreOfMass / gearRatio / stallTorque, convert encoder ticks to angle using scaleFactor
     
     //Current Angle in Radians -> current encoder position * 16/66(gear Ratio) * 2pi / total encoder ticks
@@ -52,26 +56,31 @@ public class ShoulderSubsystem extends Subsystem {
     double kf = RobotMap.armMass * 9.8 * Math.cos(currentAngle) * RobotMap.centreOfMass;
     //Calculate Feedforward Voltage -> Mechanical Torque / Stall Torque / gear ratio
     kf = (kf * RobotMap.gearRatio) / RobotMap.stallTorque;
-    return kf;
+    //Versaplanetary Gearboxes aren't as reliable, so tune it to a voltage where it keeps the arm in place
+    return kf*2;
   }
 
   public void setDegrees(double ticks){
     currentTime = Timer.getFPGATimestamp();
     pid.setSetpoint(ticks);
     //calculate dT if its not the first loop, otherwise just use 0.02 (50Hz)
-    shoulder.set(pid.calculate(encoder.getRaw(), prevTime == Double.NaN ? 0.02 : currentTime-prevTime) + kf() );
+    shoulder.set(pid.calculate(encoder.getRaw(), prevTime == Double.NaN ? 0.02 : currentTime-prevTime) + feedforward_voltage() );
     prevTime = currentTime;
   }
 
-  public boolean getLimitSwitch1(){
-    return fwdLimitSwitch.get();
+  public boolean getTopLimit(){
+    return topLimitSwitch.get();
   }
-  public boolean getLimitSwitch2(){
-    return backLimitSwitch.get();
+  public boolean getBottomLimit(){
+    return bottomLimitSwitch.get();
   }
 
   public void reset(){
     shoulder.set(0);
+  }
+
+  public void resetEncoder(){
+    encoder.reset();
   }
 
   public double getVel(){

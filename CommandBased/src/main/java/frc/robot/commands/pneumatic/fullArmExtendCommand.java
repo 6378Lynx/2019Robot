@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * Full extends the ar
+ * Full extends the arm - Only used when rotating to higher degrees
  */
 public class fullArmExtendCommand extends InstantCommand {
   /**

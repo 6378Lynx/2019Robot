@@ -92,8 +92,8 @@ public class Robot extends TimedRobot {
     pos = Shuffleboard.getTab("Graphs").add("Position", shoulderSubsystem.getPos()).withWidget(BuiltInWidgets.kGraph).withProperties(Map.of("Name", "Position-Time")).getEntry();
     vel = Shuffleboard.getTab("Graphs").add("Velocity", shoulderSubsystem.getVel()).withWidget(BuiltInWidgets.kGraph).withProperties(Map.of("Name", "Velocity-Time")).getEntry();
     acc = Shuffleboard.getTab("Graphs").add("Acceleration", accel).withWidget(BuiltInWidgets.kGraph).withProperties(Map.of("Name", "Acceleration-Time")).getEntry();
-    limitSwitch1 = Shuffleboard.getTab("Graphs").add("Limit Switch 1", shoulderSubsystem.getLimitSwitch1()).getEntry();
-    limitSwitch2 = Shuffleboard.getTab("Graphs").add("Limit Switch 1", shoulderSubsystem.getLimitSwitch2()).getEntry();
+    limitSwitch1 = Shuffleboard.getTab("Graphs").add("Top Limit", shoulderSubsystem.getTopLimit()).getEntry();
+    limitSwitch2 = Shuffleboard.getTab("Graphs").add("Bottom Limit", shoulderSubsystem.getBottomLimit()).getEntry();
     
 
 
@@ -126,8 +126,8 @@ public class Robot extends TimedRobot {
     lastTime  = currentTime;
     lastVel   = currentVel;
     
-    limitSwitch1.setBoolean(shoulderSubsystem.getLimitSwitch1());
-    limitSwitch2.setBoolean(shoulderSubsystem.getLimitSwitch2());
+    limitSwitch1.setBoolean(shoulderSubsystem.getTopLimit());
+    limitSwitch2.setBoolean(shoulderSubsystem.getBottomLimit());
   }
 
   /**

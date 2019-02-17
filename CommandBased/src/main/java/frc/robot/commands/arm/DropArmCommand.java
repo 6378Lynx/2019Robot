@@ -5,13 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.test;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class testArm2 extends Command {
-  public testArm2() {
+public class DropArmCommand extends Command {
+  public DropArmCommand() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.shoulderSubsystem);
   }
@@ -19,12 +19,13 @@ public class testArm2 extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.shoulderSubsystem.shoulder.set(0.05);
+    Robot.shoulderSubsystem.shoulder.set(0.07);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -55,19 +55,25 @@ public class RobotMap {
   public static final   int     XBOX_startButton  =  8;
 
   //Components for Arm Torque Calculation **FILLER VALUES, SUBSITUTE REAL NUMBERS - USE SI UNITS
-  public static final   double  armMass           = 12.5;
+  public static final   double  armMass           = 3;
   public static final   double  centreOfMass      = 0.79;
   public static final   double  gearRatio_1       = 1/63;
   public static final   double  gearRatio_2       = 16/66;
   public static final   double  gearRatio         = gearRatio_1*gearRatio_2;
   public static final   double  scaleFactor       = (4096*gearRatio)/360;
+
   public static final   double  stallTorque       = 1.4;
 
 
   //PRESET ENCODER READINGS
-  public static final   double  ticks15deg        = 200;
+  public static final   double  ticks15deg        = 0;
   
   //PID, Motion Profile
+  public static final   double  kP                = 0;
+  public static final   double  kI                = 0;
+  public static final   double  kD                = 0;
+  public static final   double  kF                = 0;
+
   public static final   double  maxAccel          = 1;
   public static final   double  maxVel            = 10;
   

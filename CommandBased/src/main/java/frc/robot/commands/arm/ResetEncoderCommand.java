@@ -5,26 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.pneumatic;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * Disengages the disc brake
+ * Add your docs here.
  */
-public class disengageDiscBrakeCommand extends InstantCommand {
-
-
-  public disengageDiscBrakeCommand() {
+public class ResetEncoderCommand extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public ResetEncoderCommand() {
     super();
-    requires(Robot.pneumaticSubsystem);
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.shoulderSubsystem);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.pneumaticSubsystem.disengageDiscBrake();
+    Robot.shoulderSubsystem.resetEncoder();
   }
 
 }

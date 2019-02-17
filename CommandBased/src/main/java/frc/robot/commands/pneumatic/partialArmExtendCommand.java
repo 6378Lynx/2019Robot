@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * Partially extends the arm
+ * Partially extends the arm - Can be used higher than ~30deg
  */
 public class partialArmExtendCommand extends InstantCommand {
 

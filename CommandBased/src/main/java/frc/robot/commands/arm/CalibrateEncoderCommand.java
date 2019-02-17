@@ -8,24 +8,22 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.commands.pneumatic.engageDiscBrakeCommand;
 
-public class rotate15CommandGroup extends CommandGroup {
+import frc.robot.commands.arm.DropArmCommand;
+import frc.robot.commands.arm.ResetEncoderCommand;
+
+
+public class CalibrateEncoderCommand extends CommandGroup {
   /**
-   * Rotates the arm to 15 degrees - To change degree rotation, change parameter in rotateDegCommand
-   * Should retract both arm phases before rotating, otherwise breaks frame perimeter
+   * Add your docs here.
    */
-  public rotate15CommandGroup() {
-    requires(Robot.pneumaticSubsystem);
-    requires(Robot.shoulderSubsystem);
+  public CalibrateEncoderCommand() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.
-    addSequential(new rotateDegCommand(RobotMap.ticks15deg));
-    addSequential(new engageDiscBrakeCommand());
+    addSequential(new DropArmCommand());
+    addSequential(new ResetEncoderCommand());
 
     // To run multiple commands at the same time,
     // use addParallel()

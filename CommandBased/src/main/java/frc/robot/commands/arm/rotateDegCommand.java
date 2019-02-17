@@ -20,6 +20,7 @@ public class rotateDegCommand extends TimedCommand {
 
   public rotateDegCommand(double setPosition)
   {
+      //Timeout 5 seconds, rotating shouldnt last more than 5
       super(5);
       requires(Robot.shoulderSubsystem);
       MotionProfileConstraints constraints = new MotionProfileConstraints(RobotMap.maxVel, RobotMap.maxAccel);
@@ -54,6 +55,7 @@ public class rotateDegCommand extends TimedCommand {
   }
 
   // Called once after isFinished returns true
+  //Resets PID setpoints, sets arm voltage to 0% to get ready for disc brake
   @Override
   protected void end() {
     Robot.shoulderSubsystem.pid.reset();
