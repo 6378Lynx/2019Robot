@@ -61,26 +61,9 @@ public class ShoulderSubsystem extends Subsystem implements Loggable{
   }
 
   @Config
-  public void setP(double P){
-    this.kP = P;
+  public void setPID(double kP, double kI, double kD, double kF){
     pid.setPID(kP, kI, kD, kF);
   }
-  @Config
-  public void setI(double I){
-    this.kI = I;
-    pid.setPID(kP, kI, kD, kF);
-  }
-  @Config
-  public void setD(double D){
-    this.kD = D;
-    pid.setPID(kP, kI, kD, kF);
-  }
-  @Config
-  public void setF(double F){
-    this.kF = F;
-    pid.setPID(kP, kI, kD, kF);
-  }
-
 
   // FEEDFORWARD CALCULATION -------------------------------------
 

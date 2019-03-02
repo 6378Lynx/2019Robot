@@ -51,7 +51,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     //Implement Team 449's Annotation driven Shuffleboard-based loggging library
-    compile 'com.github.Oblarg:Oblog:2.4.1'
+    compile 'com.github.Oblarg:Oblog:2.5.0'
     testCompile 'junit:junit:4.12'
 }
 
