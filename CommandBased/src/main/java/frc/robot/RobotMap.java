@@ -3,6 +3,8 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
+/*                                                                            */
+/* Author: Abdur Javaid                                                       */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
@@ -25,18 +27,18 @@ public class RobotMap {
   //Encoders & Sensors
   public static final   int     encoderPortA      =   2;
   public static final   int     encoderPortB      =   3;
-  public static final   int     limitSwitch1Port  =   3;
-  public static final   int     limitSwitch2Port  =   4;
+  public static final   int     limitSwitchTopPort  =   3;
+  public static final   int     limitSwitchBotPort  =   4;
   
   //Pneumatics
-  public static final   int     pistonOne_1       =   2;
-  public static final   int     pistonOne_2       =   3;
+  public static final   int     pistonOne_1       =   0;
+  public static final   int     pistonOne_2       =   1;
 
-  public static final   int     pistonTwo_1       =   4;
-  public static final   int     pistonTwo_2       =   5;
+  public static final   int     pistonTwo_1       =   2;
+  public static final   int     pistonTwo_2       =   3;
 
-  public static final   int     pistonThree_1     =   0;
-  public static final   int     pistonThree_2     =   1;
+  public static final   int     pistonThree_1     =   4;
+  public static final   int     pistonThree_2     =   5;
 
   public static final   int     discBrake_1       =   6;
   public static final   int     discBrake_2       =   7;
@@ -45,9 +47,9 @@ public class RobotMap {
   //XBOX Controller / JOYSTICK PORTS
   public static final   int     controllerPort    =  0;
 
-  public static final   int     XBOX_A_Button     =  1;
-  public static final   int     XBOX_B_Button     =  2;
-  public static final   int     XBOX_X_Button     =  3;
+  public static final   int     XBOX_A_Button     =  2;
+  public static final   int     XBOX_B_Button     =  3;
+  public static final   int     XBOX_X_Button     =  1;
   public static final   int     XBOX_Y_Button     =  4;
   public static final   int     XBOX_leftBumper   =  5;
   public static final   int     XBOX_rightBumper  =  6;
@@ -55,7 +57,7 @@ public class RobotMap {
   public static final   int     XBOX_startButton  =  8;
 
   //Components for Arm Torque Calculation **FILLER VALUES, SUBSITUTE REAL NUMBERS - USE SI UNITS
-  public static final   double  armMass           = 3;
+  public static final   double  armMass           = 12.5;
   public static final   double  centreOfMass      = 0.79;
   public static final   double  gearRatio_1       = 1/63;
   public static final   double  gearRatio_2       = 16/66;
@@ -66,14 +68,14 @@ public class RobotMap {
 
 
   //PRESET ENCODER READINGS
-  public static final   double  ticks15deg        = 0;
+  public static final   double  ticks15deg        = 200;
   
   //PID, Motion Profile
   public static final   double  kP                = 0;
   public static final   double  kI                = 0;
   public static final   double  kD                = 0;
   public static final   double  kF                = 0;
-
+  
   public static final   double  maxAccel          = 1;
   public static final   double  maxVel            = 10;
   

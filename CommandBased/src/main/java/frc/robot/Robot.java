@@ -3,6 +3,8 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
+/*                                                                            */
+/* Author: Abdur Javaid                                                       */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
@@ -27,6 +29,9 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import io.github.oblarg.oblog.Logger;
+import io.github.oblarg.oblog.annotations.Log;
+
  
 
 /**
@@ -45,18 +50,15 @@ public class Robot extends TimedRobot {
   SendableChooser<Command>            chooser             =  new SendableChooser<>();
 
       
-  double            deltaV;
-  double            deltaT;
-  double            accel;
-  double            currentTime;
-  double            currentVel;
-  double            lastVel   = shoulderSubsystem.getVel();
-  double            lastTime  = Timer.getFPGATimestamp();
+
   NetworkTableEntry pos;
   NetworkTableEntry vel;
   NetworkTableEntry acc;
   NetworkTableEntry limitSwitch1;
   NetworkTableEntry limitSwitch2;
+
+  @Log
+  double            accel;
 
   Command autonomousCommand;
 
@@ -89,16 +91,8 @@ public class Robot extends TimedRobot {
       }
     }).start();
 
-    pos = Shuffleboard.getTab("Graphs").add("Position", shoulderSubsystem.getPos()).withWidget(BuiltInWidgets.kGraph).withProperties(Map.of("Name", "Position-Time")).getEntry();
-    vel = Shuffleboard.getTab("Graphs").add("Velocity", shoulderSubsystem.getVel()).withWidget(BuiltInWidgets.kGraph).withProperties(Map.of("Name", "Velocity-Time")).getEntry();
-    acc = Shuffleboard.getTab("Graphs").add("Acceleration", accel).withWidget(BuiltInWidgets.kGraph).withProperties(Map.of("Name", "Acceleration-Time")).getEntry();
-    limitSwitch1 = Shuffleboard.getTab("Graphs").add("Top Limit", shoulderSubsystem.getTopLimit()).getEntry();
-    limitSwitch2 = Shuffleboard.getTab("Graphs").add("Bottom Limit", shoulderSubsystem.getBottomLimit()).getEntry();
-    
+    Logger.configureLoggingAndConfig(this, false);    
 
-
-    //chooser.addDefault("Default Auto", new teleopDriveCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());    
   }
   
 
@@ -112,22 +106,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    currentVel  = shoulderSubsystem.getVel();
-    currentTime = Timer.getFPGATimestamp();
 
-    deltaV    = lastVel - currentVel;
-    deltaT    = lastTime - currentTime;
-    accel     = deltaV/deltaT;
+    Logger.updateEntries();
+    Scheduler.getInstance().run();
 
-    pos.setDouble(shoulderSubsystem.getPos());
-    vel.setDouble(shoulderSubsystem.getVel());
-    acc.setDouble(accel);
-
-    lastTime  = currentTime;
-    lastVel   = currentVel;
-    
-    limitSwitch1.setBoolean(shoulderSubsystem.getTopLimit());
-    limitSwitch2.setBoolean(shoulderSubsystem.getBottomLimit());
   }
 
   /**

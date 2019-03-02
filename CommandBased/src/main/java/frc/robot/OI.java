@@ -3,6 +3,8 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
+/*                                                                            */
+/* Author: Abdur Javaid                                                       */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
@@ -11,6 +13,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.pneumatic.activateClawCommand;
+import frc.robot.commands.pneumatic.partialArmExtendCommand;
+import frc.robot.commands.pneumatic.fullArmExtendCommand;
 import frc.robot.commands.test.backArmTestCommand;
 import frc.robot.commands.test.fwdArmTestCommand;
 import frc.robot.commands.test.stopArmTestCommand;
@@ -32,12 +37,13 @@ public class OI {
   Button                  aButton     = new JoystickButton(joystick, RobotMap.XBOX_A_Button),
                           bButton     = new JoystickButton(joystick, RobotMap.XBOX_B_Button),
                           yButton     = new JoystickButton(joystick, RobotMap.XBOX_Y_Button),
-                          xButton     = new JoystickButton(joystick, RobotMap.XBOX_X_Button);
+                          xButton     = new JoystickButton(joystick, RobotMap.XBOX_X_Button),
+                          leftBumper  = new JoystickButton(joystick, RobotMap.XBOX_leftBumper);
 
   public OI() {
-    aButton.whenPressed(new fwdArmTestCommand());
-    bButton.whenPressed(new backArmTestCommand());
-    xButton.whenPressed(new stopArmTestCommand());
+    leftBumper.whenPressed(new activateClawCommand());
+    aButton.whenPressed(new partialArmExtendCommand());
+    //bButton.whenPressed(new fullArmExtendCommand());
   }
 
 

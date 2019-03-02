@@ -3,6 +3,8 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
+/*                                                                            */
+/* Author: Abdur Javaid                                                       */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
@@ -24,8 +26,8 @@ public class teleopDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double frontSpeed = -Robot.oi.controller.getRawAxis(0);
-    double sideSpeed = Robot.oi.controller.getRawAxis(1);
+    double frontSpeed = -Robot.oi.controller.getRawAxis(1);
+    double sideSpeed = Robot.oi.controller.getRawAxis(2);
     Robot.driveSubsystem.teleopDrive(frontSpeed, sideSpeed);
   }
 

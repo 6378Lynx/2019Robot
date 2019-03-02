@@ -3,6 +3,8 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
+/*                                                                            */
+/* Author: Abdur Javaid                                                       */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
@@ -14,36 +16,73 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.CheesyPID;
 import frc.robot.RobotMap;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
+import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * Add your docs here.
  */
-public class ShoulderSubsystem extends Subsystem {
+public class ShoulderSubsystem extends Subsystem implements Loggable{
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public  Spark        shoulder         = new Spark(RobotMap.shoulderPort);
   private Encoder      encoder          = new Encoder(RobotMap.encoderPortA, RobotMap.encoderPortB, false, Encoder.EncodingType.k4X);
-  private DigitalInput topLimitSwitch   = new DigitalInput(RobotMap.limitSwitch1Port);
-  private DigitalInput bottomLimitSwitch  = new DigitalInput(RobotMap.limitSwitch2Port);
-  private double kP         = RobotMap.kP;
-  private double kI         = RobotMap.kI;
-  private double kD         = RobotMap.kD;
-  private double kF         = RobotMap.kF;
-  private double currentTime;
+  private DigitalInput topLimitSwitch   = new DigitalInput(0);
+  private DigitalInput bottomLimitSwitch  = new DigitalInput(1);
+  private double kP;
+  private double kI;
+  private double kD;
+  private double kF;
   private double prevTime   = Double.NaN;
+  private double currentTime;
+
+  private double deltaV;
+  private double deltaT;
+  private double currentVel;
+  private double lastVel   = this.getVel();
+  private double lastTime  = Timer.getFPGATimestamp();
+
+  @Log.Graph
+  private double accel;
+
   //adjust first and fourth 0's to tune PID
   //CheesyPID = SynchronousPIDF from 254, renamed because it was confusing
   //Change 0's to tune PID
   public CheesyPID pid = new CheesyPID(kP,kI,kD,kF);
 
 
-
+  // CONSTRUCTOR -------------------------------------------------
 
   public ShoulderSubsystem(){
     pid.setInputRange(0, 4096);
     pid.setOutputRange(-1, 1);
   }
+
+  @Config
+  public void setP(double P){
+    this.kP = P;
+    pid.setPID(kP, kI, kD, kF);
+  }
+  @Config
+  public void setI(double I){
+    this.kI = I;
+    pid.setPID(kP, kI, kD, kF);
+  }
+  @Config
+  public void setD(double D){
+    this.kD = D;
+    pid.setPID(kP, kI, kD, kF);
+  }
+  @Config
+  public void setF(double F){
+    this.kF = F;
+    pid.setPID(kP, kI, kD, kF);
+  }
+
+
+  // FEEDFORWARD CALCULATION -------------------------------------
 
   //Feedforward Calculation, Added onto PID output
   //Uses the Centre Of Mass only when arm is retracted fully, as you only rotate when the arm is retracted otherwise you break frame perimeter
@@ -56,9 +95,10 @@ public class ShoulderSubsystem extends Subsystem {
     double kf = RobotMap.armMass * 9.8 * Math.cos(currentAngle) * RobotMap.centreOfMass;
     //Calculate Feedforward Voltage -> Mechanical Torque / Stall Torque / gear ratio
     kf = (kf * RobotMap.gearRatio) / RobotMap.stallTorque;
-    //Versaplanetary Gearboxes aren't as reliable, so tune it to a voltage where it keeps the arm in place
-    return kf*2;
+    return kf;
   }
+
+  // SET DEGREES USING PID ----------------------------------------
 
   public void setDegrees(double ticks){
     currentTime = Timer.getFPGATimestamp();
@@ -68,29 +108,46 @@ public class ShoulderSubsystem extends Subsystem {
     prevTime = currentTime;
   }
 
+  @Override
+  public void periodic() {
+    currentVel  = this.getVel();
+    currentTime = Timer.getFPGATimestamp();
+
+    deltaV    = lastVel - currentVel;
+    deltaT    = lastTime - currentTime;
+    accel     = deltaV/deltaT;
+
+    lastTime  = currentTime;
+    lastVel   = currentVel;
+  }
+
+
+  @Log
   public boolean getTopLimit(){
     return topLimitSwitch.get();
   }
+
+
+  @Log
   public boolean getBottomLimit(){
     return bottomLimitSwitch.get();
   }
+
+  @Log.Graph
+  public double getPos(){
+    return encoder.getRaw();
+  }
+
+  @Log.Graph
+  public double getVel(){
+    return encoder.getRate();
+  }
+
 
   public void reset(){
     shoulder.set(0);
   }
 
-  public void resetEncoder(){
-    encoder.reset();
-  }
-
-  public double getVel(){
-    return encoder.getRate();
-  }
-
-  public double getPos(){
-    return encoder.getRaw();
-  }
-  
 
   @Override
   public void initDefaultCommand() {

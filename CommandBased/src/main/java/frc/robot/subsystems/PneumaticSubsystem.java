@@ -3,6 +3,8 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
+/*                                                                            */
+/* Author: Abdur Javaid                                                       */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
@@ -10,16 +12,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * Add your docs here.
  */
-public class PneumaticSubsystem extends Subsystem {
+public class PneumaticSubsystem extends Subsystem implements Loggable{
   //Initialize
-  DoubleSolenoid phaseOne = new DoubleSolenoid(RobotMap.pistonOne_1, RobotMap.pistonOne_2);
-  DoubleSolenoid phaseTwo = new DoubleSolenoid(RobotMap.pistonTwo_1, RobotMap.pistonTwo_2);
-  DoubleSolenoid claw = new DoubleSolenoid(RobotMap.pistonThree_1, RobotMap.pistonThree_2);
-  DoubleSolenoid discBrake = new DoubleSolenoid(RobotMap.discBrake_1, RobotMap.discBrake_2);
+  @Log
+  DoubleSolenoid phaseOne = new DoubleSolenoid(0,RobotMap.pistonOne_1, RobotMap.pistonOne_2);
+  @Log
+  DoubleSolenoid phaseTwo = new DoubleSolenoid(0,RobotMap.pistonTwo_1, RobotMap.pistonTwo_2);
+  @Log
+  DoubleSolenoid claw = new DoubleSolenoid(0,RobotMap.pistonThree_1, RobotMap.pistonThree_2);
+  @Log
+  DoubleSolenoid discBrake = new DoubleSolenoid(0,RobotMap.discBrake_1, RobotMap.discBrake_2);
 
   //Extend the first phase of the arm
   public void partialArmExtend(){
