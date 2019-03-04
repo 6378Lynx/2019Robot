@@ -53,6 +53,7 @@ dependencies {
     //Implement Team 449's Annotation driven Shuffleboard-based loggging library
     compile 'com.github.Oblarg:Oblog:2.5.0'
     testCompile 'junit:junit:4.12'
+    simulation "edu.wpi.first.halsim:halsim_ds_socket:${wpi.wpilibVersion}:${wpi.platforms.desktop}@zip"
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -61,4 +62,8 @@ dependencies {
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+compileJava {
+    options.compilerArgs << '-parameters'
 }

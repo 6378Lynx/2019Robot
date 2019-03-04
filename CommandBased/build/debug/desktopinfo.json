@@ -1,0 +1,11 @@
+[
+  {
+    "name": "CommandBased (in project CommandBased)",
+    "file": "D:\\Documents\\FRC\\2019 Code\\Git Code\\dev\\CommandBased\\build\\libs\\CommandBased.jar",
+    "extensions": [
+      "D:\\Documents\\FRC\\2019 Code\\Git Code\\dev\\CommandBased\\build\\tmp\\expandedArchives\\halsim_ds_socket-2019.2.1-windowsx86-64.zip_fcefca6d172fbecbe2fd23944dca38b6\\windows\\x86-64\\shared\\halsim_ds_socket.dll"
+    ],
+    "librarydir": "D:\\Documents\\FRC\\2019 Code\\Git Code\\dev\\CommandBased\\build\\tmp\\jniExtractDir",
+    "mainclass": "frc.robot.Main"
+  }
+]

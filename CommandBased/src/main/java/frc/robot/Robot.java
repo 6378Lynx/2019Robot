@@ -57,9 +57,6 @@ public class Robot extends TimedRobot {
   NetworkTableEntry limitSwitch1;
   NetworkTableEntry limitSwitch2;
 
-  @Log
-  double            accel;
-
   Command autonomousCommand;
 
   /**

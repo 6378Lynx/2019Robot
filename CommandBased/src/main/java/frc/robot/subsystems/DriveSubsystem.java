@@ -40,6 +40,11 @@ public class DriveSubsystem extends Subsystem implements Loggable {
 
   }
 
+  @Override
+  public String configureLogName(){
+    return "ShoulderSubsystem";
+  }
+
   @Config 
   public void setScalingFactor(double scalingFactor){
     this.scalingFactor = scalingFactor;
@@ -68,7 +73,7 @@ public class DriveSubsystem extends Subsystem implements Loggable {
  
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
+    // Default -> TeleopDriveCommand so its always running
     setDefaultCommand(new teleopDriveCommand());
   }
 }
