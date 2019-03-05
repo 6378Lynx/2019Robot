@@ -83,11 +83,11 @@ public class ShoulderSubsystem extends Subsystem implements Loggable{
 
   // SET DEGREES USING PID ----------------------------------------
 
-  public void setDegrees(double ticks){
+  public void setDegrees(double ticks, double motion_feedforward){
     currentTime = Timer.getFPGATimestamp();
     pid.setSetpoint(ticks);
     //calculate dT if its not the first loop, otherwise just use 0.02 (50Hz)
-    shoulder.set(pid.calculate(encoder.getRaw(), prevTime == Double.NaN ? 0.02 : currentTime-prevTime) + feedforward_voltage() );
+    shoulder.set(pid.calculate(encoder.getRaw(), prevTime == Double.NaN ? 0.02 : currentTime-prevTime) + feedforward_voltage() + motion_feedforward );
     prevTime = currentTime;
   }
 

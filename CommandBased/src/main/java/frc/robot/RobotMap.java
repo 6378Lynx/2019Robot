@@ -76,7 +76,21 @@ public class RobotMap {
   public static final   double  kD                = 0;
   public static final   double  kF                = 0;
   
-  public static final   double  maxAccel          = 1;
-  public static final   double  maxVel            = 10;
+  /*V = ka*accel + kv*vel
+  V = 8V (you can only give 12v to motor, 2v is used by feedforward ish)
+  ka = 12/1300
+  kv = 12/134
+
+  approx 50deg/s as max vel
+  8v = ka*accel + kv*50deg/s
+  8v = ka*accel + 4.45v
+  3.55 = ka*accel
+  accel = 3.55/ka
+  */
+  public static final   double kv                 = 12/134;
+  public static final   double ka                 = 12/1300;
+
+  public static final   double  maxAccel          = 200;
+  public static final   double  maxVel            = 50;
   
 }
