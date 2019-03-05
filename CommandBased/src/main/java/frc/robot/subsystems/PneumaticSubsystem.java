@@ -10,6 +10,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import io.github.oblarg.oblog.Loggable;
@@ -28,6 +29,8 @@ public class PneumaticSubsystem extends Subsystem implements Loggable{
   DoubleSolenoid claw = new DoubleSolenoid(0,RobotMap.pistonThree_1, RobotMap.pistonThree_2);
   @Log
   DoubleSolenoid discBrake = new DoubleSolenoid(0,RobotMap.discBrake_1, RobotMap.discBrake_2);
+  @Log
+  Compressor compressor = new Compressor();
 
   //Extend the first phase of the arm
   public void partialArmExtend(){
