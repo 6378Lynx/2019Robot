@@ -1,13 +1,16 @@
 package frc.robot;
 
-import edu.wpi.first.hal.util.BoundaryException;;
+
+import edu.wpi.first.hal.util.BoundaryException;
+import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * This class implements a PID Control Loop.
  * Created by FRC Team 254 - CheesyPoofs
  * Does all computation synchronously (i.e. the calculate() function must be called by the user from his own thread)
  */
-public class CheesyPID {
+public class CheesyPID extends SendableBase {
     private double m_P; // factor for "proportional" control
     private double m_I; // factor for "integral" control
     private double m_D; // factor for "derivative" control
@@ -152,7 +155,23 @@ public class CheesyPID {
         m_F = f;
     }
 
-    /**
+    public void setP(double p){
+        m_P = p;
+    }
+
+    public void setI(double i){
+        m_I = i;
+    }
+
+    public void setD(double d){
+        m_D = d;
+    }
+
+    public void setF(double f){
+        m_F = f;
+    }
+
+    /**FCONST
      * Get the Proportional coefficient
      *
      * @return proportional coefficient
@@ -330,4 +349,18 @@ public class CheesyPID {
     public String getType() {
         return "PIDController";
     }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("PIDController");
+        builder.setSafeState(this::reset);
+        builder.addDoubleProperty("p", this::getP, this::setP);
+        builder.addDoubleProperty("i", this::getI, this::setI);
+        builder.addDoubleProperty("d", this::getD, this::setD);
+        builder.addDoubleProperty("f", this::getF, this::setF);
+        builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
+    }
+
+
+
 }

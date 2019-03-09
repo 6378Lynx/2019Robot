@@ -50,7 +50,9 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   private double currentTime;
   
   //Use Constants after tuning
+  @Config.PIDController
   CheesyPID leftPID = new CheesyPID(0,0,0,0);
+  @Config.PIDController
   CheesyPID rightPID = new CheesyPID(0,0,0,0);
 
   public DriveSubsystem(){
