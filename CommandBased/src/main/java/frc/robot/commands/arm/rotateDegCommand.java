@@ -33,7 +33,7 @@ public class rotateDegCommand extends TimedCommand {
   @Override
   protected void initialize() {
 
-    MotionProfileConstraints constraints = new MotionProfileConstraints(RobotMap.maxVel, RobotMap.maxAccel);
+    MotionProfileConstraints constraints = new MotionProfileConstraints(RobotMap.armMaxVel, RobotMap.armMaxAccel);
 
     profile = MotionProfileGenerator.generateProfile(
       constraints, 
@@ -47,7 +47,7 @@ public class rotateDegCommand extends TimedCommand {
   protected void execute() {
     double t = timeSinceInitialized();
     MotionState state = profile.stateByTimeClamped(t);
-    Robot.shoulderSubsystem.setDegrees(state.pos(), RobotMap.ka * state.acc() + RobotMap.kv * state.vel());
+    Robot.shoulderSubsystem.setDegrees(state.pos(), RobotMap.arm_ka * state.acc() + RobotMap.arm_kv * state.vel());
   }
 
   // Make this return true when this Command no longer needs to run execute()

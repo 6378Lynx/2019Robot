@@ -28,13 +28,16 @@ public class ShoulderSubsystem extends Subsystem implements Loggable{
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public  Spark        shoulder         = new Spark(RobotMap.shoulderPort);
-  private Encoder      encoder          = new Encoder(RobotMap.encoderPortA, RobotMap.encoderPortB, false, Encoder.EncodingType.k4X);
+  private Encoder      encoder          = new Encoder(RobotMap.armEncoder_A, RobotMap.armEncoder_B, false, Encoder.EncodingType.k4X);
+
   private DigitalInput topLimitSwitch   = new DigitalInput(0);
   private DigitalInput bottomLimitSwitch  = new DigitalInput(1);
+
   private double kP;
   private double kI;
   private double kD;
   private double kF;
+  
   private double prevTime   = Double.NaN;
   private double currentTime;
 

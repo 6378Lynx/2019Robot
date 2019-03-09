@@ -32,7 +32,9 @@ public class OI {
   //// joystick.
   
   public XboxController   controller  = new XboxController(RobotMap.controllerPort);
-  public Joystick         joystick    = new Joystick(RobotMap.controllerPort);
+  
+  public Joystick         joystick    = new Joystick(RobotMap.controllerPort),
+                          operator    = new Joystick(RobotMap.operatorPort);
 
   Button                  aButton     = new JoystickButton(joystick, RobotMap.XBOX_A_Button),
                           bButton     = new JoystickButton(joystick, RobotMap.XBOX_B_Button),

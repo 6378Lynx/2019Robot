@@ -67,26 +67,9 @@ public class Robot extends TimedRobot {
   
   public void robotInit() {
     oi = new OI();
-    
-    new Thread(() -> {
-      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-      camera.setResolution(240, 180);
-      
-      CvSink cvSink = CameraServer.getInstance().getVideo();
-      CvSource outputStream = CameraServer.getInstance().putVideo("DriverCam", 240, 180);
-      
-      Mat source = new Mat();
-      Mat output = new Mat();
-      
-      while(!Thread.interrupted()) {
-          long frameTime = cvSink.grabFrame(source);
-          if (frameTime == 0) {
-          continue;
-          }
-          Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-          outputStream.putFrame(output);
-      }
-    }).start();
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(240, 180);
+
 
     Logger.configureLoggingAndConfig(this, false);    
 

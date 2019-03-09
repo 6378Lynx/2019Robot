@@ -24,11 +24,15 @@ public class RobotMap {
   public static final   int     rightBackPort     =   3;
   public static final   int     shoulderPort      =   4;
 
-  //Encoders & Sensors
-  public static final   int     encoderPortA      =   2;
-  public static final   int     encoderPortB      =   3;
-  public static final   int     limitSwitchTopPort  =   3;
-  public static final   int     limitSwitchBotPort  =   4;
+  //DIGITAL INPUTS
+  public static final   int     leftDriveEncoder_A  =   0;
+  public static final   int     leftDriveEncoder_B  =   1;
+  public static final   int     rightDriveEncoder_A =   2;
+  public static final   int     rightDriveEncoder_B =   3;
+  public static final   int     armEncoder_A        =   4;
+  public static final   int     armEncoder_B        =   5;
+  public static final   int     limitSwitchTopPort  =   6;
+  public static final   int     limitSwitchBotPort  =   7;
   
   //Pneumatics
   public static final   int     pistonOne_1       =   0;
@@ -46,6 +50,7 @@ public class RobotMap {
 
   //XBOX Controller / JOYSTICK PORTS
   public static final   int     controllerPort    =  0;
+  public static final   int     operatorPort      =  1;
 
   public static final   int     XBOX_A_Button     =  2;
   public static final   int     XBOX_B_Button     =  3;
@@ -87,10 +92,17 @@ public class RobotMap {
   3.55 = ka*accel
   accel = 3.55/ka
   */
-  public static final   double kv                 = 12/134;
-  public static final   double ka                 = 12/1300;
+  public static final   double arm_kv                 = 12/134;
+  public static final   double arm_ka                 = 12/1300;
 
-  public static final   double  maxAccel          = 200;
-  public static final   double  maxVel            = 50;
+  public static final   double  armMaxAccel          = 200;
+  public static final   double  armMaxVel            = 50;
+
+
+  public static final   double drive_kv                 = 12/134;
+  public static final   double drive_ka                 = 12/1300;
+
+  public static final   double  driveMaxAccel          = 200;
+  public static final   double  driveMaxVel            = 50;
   
 }
