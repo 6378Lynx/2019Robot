@@ -9,28 +9,17 @@
 
 package frc.robot;
 
-import java.util.Map;
-
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import io.github.oblarg.oblog.Logger;
-import io.github.oblarg.oblog.annotations.Log;
 
  
 
@@ -48,14 +37,6 @@ public class Robot extends TimedRobot {
   public static OI                    oi;
 
   SendableChooser<Command>            chooser             =  new SendableChooser<>();
-
-      
-
-  NetworkTableEntry pos;
-  NetworkTableEntry vel;
-  NetworkTableEntry acc;
-  NetworkTableEntry limitSwitch1;
-  NetworkTableEntry limitSwitch2;
 
   Command autonomousCommand;
 

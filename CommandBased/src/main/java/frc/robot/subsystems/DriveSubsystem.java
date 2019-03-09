@@ -46,7 +46,6 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   @Log.Gyro
   AnalogGyro gyro = new AnalogGyro(1);
 
-  private double scalingFactor;
   private double prevTime   = Double.NaN;
   private double currentTime;
   
@@ -55,8 +54,9 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   CheesyPID rightPID = new CheesyPID(0,0,0,0);
 
   public DriveSubsystem(){
-    leftEncoder.setDistancePerPulse(0);
-    rightEncoder.setDistancePerPulse(0);
+    //Move forward X feet, divide X by encoder reading for distance per pulse
+    leftEncoder.setDistancePerPulse(0.5);
+    rightEncoder.setDistancePerPulse(0.5);
 
     leftPID.setOutputRange(-1, 1);
     rightPID.setOutputRange(-1, 1);
