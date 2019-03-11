@@ -10,21 +10,19 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.commands.pneumatic.engageDiscBrakeCommand;
+import frc.robot.commands.pneumatic.*;
 
-public class rotate15CommandGroup extends CommandGroup {
+public class rotateToAngleCommandGroup extends CommandGroup {
   /**
    * Rotates the arm to 15 degrees - To change degree rotation, change parameter in rotateDegCommand
    * Should retract both arm phases before rotating, otherwise breaks frame perimeter
    */
-  public rotate15CommandGroup() {
-    requires(Robot.pneumaticSubsystem);
-    requires(Robot.shoulderSubsystem);
 
-    addSequential(new rotateDegCommand(RobotMap.ticks15deg));
+  public rotateToAngleCommandGroup(double setPosition) {
+    addParallel(new retractArmCommand());
+    addParallel(new disengageDiscBrakeCommand());
+    
+    addSequential(new rotateDegCommand(setPosition));
     addSequential(new engageDiscBrakeCommand());
-
   }
 }

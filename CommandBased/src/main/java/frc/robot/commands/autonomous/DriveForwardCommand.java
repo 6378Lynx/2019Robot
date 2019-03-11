@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-public class TestAutonCommand extends Command {
+public class DriveForwardCommand extends Command {
 
   private MotionProfile leftProfile;
   private MotionProfile rightProfile;
   private double setPosition;
 
-  public TestAutonCommand(double setPosition) {
+  public DriveForwardCommand(double setPosition) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.driveSubsystem);
     this.setPosition = setPosition;
@@ -50,8 +50,8 @@ public class TestAutonCommand extends Command {
     MotionState leftState = leftProfile.stateByTimeClamped(t);
     MotionState rightState = leftProfile.stateByTimeClamped(t);
 
-    double leftFeedForward = RobotMap.drive_ka * leftState.acc() + RobotMap.drive_kv * leftState.vel();
-    double rightFeedForward = RobotMap.drive_ka * rightState.acc() + RobotMap.drive_kv * rightState.vel();
+    double leftFeedForward = RobotMap.drive_ka * leftState.acc() + RobotMap.drive_kv * leftState.vel() + RobotMap.Vintercept;
+    double rightFeedForward = RobotMap.drive_ka * rightState.acc() + RobotMap.drive_kv * rightState.vel() + RobotMap.Vintercept;
 
     Robot.driveSubsystem.setAutonDrive(setPosition, leftFeedForward, rightFeedForward);    
   }

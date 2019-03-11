@@ -34,7 +34,7 @@ public class RobotMap {
   public static final   int     limitSwitchTopPort  =   6;
   public static final   int     limitSwitchBotPort  =   7;
   
-  //Pneumatics
+  //Pneumatics - PCM 0
   public static final   int     pistonOne_1       =   0;
   public static final   int     pistonOne_2       =   1;
 
@@ -46,6 +46,8 @@ public class RobotMap {
 
   public static final   int     discBrake_1       =   6;
   public static final   int     discBrake_2       =   7;
+
+  //Pneumatics - PCM 1
   
 
   //XBOX Controller / JOYSTICK PORTS
@@ -61,19 +63,22 @@ public class RobotMap {
   public static final   int     XBOX_backButton   =  7;
   public static final   int     XBOX_startButton  =  8;
 
-  //Components for Arm Torque Calculation **FILLER VALUES, SUBSITUTE REAL NUMBERS - USE SI UNITS
+  //XBOX Controller / OPERATOR PORTS
+
+
+  //Components for Arm Torque Calculation
   public static final   double  armMass           = 12.5;
   public static final   double  centreOfMass      = 0.79;
   public static final   double  gearRatio_1       = 1/63;
   public static final   double  gearRatio_2       = 16/66;
   public static final   double  gearRatio         = gearRatio_1*gearRatio_2;
   public static final   double  scaleFactor       = (4096*gearRatio)/360;
-
   public static final   double  stallTorque       = 1.4;
 
 
   //PRESET ENCODER READINGS
   public static final   double  ticks15deg        = 200;
+  public static final   double  rocketPosition    = 70000;
   
   //PID, Motion Profile
   public static final   double  kP                = 0;
@@ -81,28 +86,37 @@ public class RobotMap {
   public static final   double  kD                = 0;
   public static final   double  kF                = 0;
   
-  /*V = ka*accel + kv*vel
-  V = 8V (you can only give 12v to motor, 2v is used by feedforward ish)
-  ka = 12/1300
-  kv = 12/134
 
-  approx 50deg/s as max vel
-  8v = ka*accel + kv*50deg/s
-  8v = ka*accel + 4.45v
-  3.55 = ka*accel
-  accel = 3.55/ka
+  // -- Stuff for Auto
+
+  /*
+  **
+    * FOR ARM
+    * V = ka*accel + kv*vel
+    * V = 8V (you can only give 12v to motor, 2v is used by feedforward ish)
+    * ka = 12/1300
+    * kv = 12/134
+
+    * approx 50deg/s as max vel
+    * 8v = ka*accel + kv*50deg/s
+    * 8v = ka*accel + 4.45v
+    * 3.55 = ka*accel
+    * accel = 3.55/ka
+  **
   */
   public static final   double arm_kv                 = 12/134;
   public static final   double arm_ka                 = 12/1300;
 
-  public static final   double  armMaxAccel          = 200;
-  public static final   double  armMaxVel            = 50;
+  public static final   double  armMaxAccel           = 200;
+  public static final   double  armMaxVel             = 50;
 
 
-  public static final   double drive_kv                 = 12/134;
-  public static final   double drive_ka                 = 12/1300;
+  public static final   double drive_kv               = 12/134;
+  public static final   double drive_ka               = 12/1300;
 
-  public static final   double  driveMaxAccel          = 200;
-  public static final   double  driveMaxVel            = 50;
+  public static final   double driveMaxAccel          = 200;
+  public static final   double driveMaxVel            = 50;
+
+  public static final   double Vintercept             = 1;
   
 }

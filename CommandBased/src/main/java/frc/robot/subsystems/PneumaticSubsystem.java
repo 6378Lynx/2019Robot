@@ -80,6 +80,11 @@ public class PneumaticSubsystem extends Subsystem implements Loggable{
   public void disengageDiscBrake(){
     discBrake.set(DoubleSolenoid.Value.kForward);
   }
+
+  public void retractArm(){
+    phaseOne.set(DoubleSolenoid.Value.kReverse);
+    phaseTwo.set(DoubleSolenoid.Value.kReverse);    
+  }
     
   @Override
   public void initDefaultCommand() {

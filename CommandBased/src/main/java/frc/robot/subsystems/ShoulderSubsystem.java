@@ -94,17 +94,9 @@ public class ShoulderSubsystem extends Subsystem implements Loggable{
     prevTime = currentTime;
   }
 
-  @Override
-  public void periodic() {
-    currentVel  = this.getVel();
-    currentTime = Timer.getFPGATimestamp();
-
-    deltaV    = lastVel - currentVel;
-    deltaT    = lastTime - currentTime;
-    accel     = deltaV/deltaT;
-
-    lastTime  = currentTime;
-    lastVel   = currentVel;
+  //Setters - Getters
+  public void setArm(double percent){
+    shoulder.set(percent);
   }
 
 
@@ -129,9 +121,26 @@ public class ShoulderSubsystem extends Subsystem implements Loggable{
     return encoder.getRate();
   }
 
-
   public void reset(){
     shoulder.set(0);
+  }
+
+  public void resetEncoder(){
+    encoder.reset();
+  }
+
+
+  @Override
+  public void periodic() {
+    currentVel  = this.getVel();
+    currentTime = Timer.getFPGATimestamp();
+
+    deltaV    = lastVel - currentVel;
+    deltaT    = lastTime - currentTime;
+    accel     = deltaV/deltaT;
+
+    lastTime  = currentTime;
+    lastVel   = currentVel;
   }
 
 
