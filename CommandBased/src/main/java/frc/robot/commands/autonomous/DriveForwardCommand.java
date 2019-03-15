@@ -53,7 +53,7 @@ public class DriveForwardCommand extends Command {
     double leftFeedForward = RobotMap.drive_ka * leftState.acc() + RobotMap.drive_kv * leftState.vel() + RobotMap.Vintercept;
     double rightFeedForward = RobotMap.drive_ka * rightState.acc() + RobotMap.drive_kv * rightState.vel() + RobotMap.Vintercept;
 
-    Robot.driveSubsystem.setAutonDrive(setPosition, leftFeedForward, rightFeedForward);    
+    Robot.driveSubsystem.setAutonDrive(setPosition, leftFeedForward, rightFeedForward, 0);    
   }
 
   // Make this return true when this Command no longer needs to run execute()

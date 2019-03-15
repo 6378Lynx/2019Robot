@@ -14,19 +14,16 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import com.team254.lib.util.motion.*;
 
-
-
 public class rotateDegCommand extends TimedCommand {
-  
+
   private MotionProfile profile;
-  private double setPosition;
+  private double angle;
 
-  public rotateDegCommand(double setPosition){
-      //Timeout 5 seconds, rotating shouldnt last more than 5
-      super(5);
-      requires(Robot.shoulderSubsystem);
-      this.setPosition = setPosition;
-
+  public rotateDegCommand(double angle) {
+    // Timeout 5 seconds, rotating shouldnt last more than 5
+    super(5);
+    requires(Robot.shoulderSubsystem);
+    this.angle = angle;
   }
 
   // Called just before this Command runs the first time
@@ -35,10 +32,8 @@ public class rotateDegCommand extends TimedCommand {
 
     MotionProfileConstraints constraints = new MotionProfileConstraints(RobotMap.armMaxVel, RobotMap.armMaxAccel);
 
-    profile = MotionProfileGenerator.generateProfile(
-      constraints, 
-      new MotionProfileGoal(setPosition),
-      new MotionState(0,Robot.shoulderSubsystem.getPos(),0,0));
+    profile = MotionProfileGenerator.generateProfile(constraints, new MotionProfileGoal(angle),
+        new MotionState(0, Robot.shoulderSubsystem.getPos(), 0, 0));
 
   }
 
@@ -60,12 +55,8 @@ public class rotateDegCommand extends TimedCommand {
   }
 
   // Called once after isFinished returns true
-  //Resets PID setpoints, sets arm voltage to 0% to get ready for disc brake
   @Override
   protected void end() {
-    Robot.shoulderSubsystem.pid.reset();
-    Robot.shoulderSubsystem.pid.resetIntegrator();
-    Robot.shoulderSubsystem.reset();
   }
 
   // Called when another command which requires one or more of the same

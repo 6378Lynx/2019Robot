@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.arm.rotateToAngleCommandGroup;
 import frc.robot.commands.pneumatic.activateClawCommand;
 import frc.robot.commands.pneumatic.partialArmExtendCommand;
 import frc.robot.commands.pneumatic.fullArmExtendCommand;
@@ -36,7 +37,7 @@ public class OI {
   public Joystick         joystick    = new Joystick(RobotMap.controllerPort),
                           operator    = new Joystick(RobotMap.operatorPort);
 
-  Button                  aButton     = new JoystickButton(joystick, RobotMap.XBOX_A_Button),
+  Button             aButton     = new JoystickButton(joystick, RobotMap.XBOX_A_Button),
                           bButton     = new JoystickButton(joystick, RobotMap.XBOX_B_Button),
                           yButton     = new JoystickButton(joystick, RobotMap.XBOX_Y_Button),
                           xButton     = new JoystickButton(joystick, RobotMap.XBOX_X_Button),
@@ -45,7 +46,7 @@ public class OI {
   public OI() {
     leftBumper.whenPressed(new activateClawCommand());
     aButton.whenPressed(new partialArmExtendCommand());
-    //bButton.whenPressed(new fullArmExtendCommand());
+    bButton.whenPressed(new rotateToAngleCommandGroup(45,1));
   }
 
 

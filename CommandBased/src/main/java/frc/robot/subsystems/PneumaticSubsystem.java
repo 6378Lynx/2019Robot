@@ -43,7 +43,7 @@ public class PneumaticSubsystem extends Subsystem implements Loggable{
       phaseOne.set(DoubleSolenoid.Value.kForward);
     }
   }
-  
+
   //Extend the second phase of the arm
   public void fullArmExtend(){
     //If the arm is partially extended, extend the second phase only

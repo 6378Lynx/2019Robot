@@ -1,4 +1,5 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "wpilib.online": true
+    "wpilib.online": true,
+    "java.home": "C:\\Users\\Public\\frc2019\\jdk"
 }

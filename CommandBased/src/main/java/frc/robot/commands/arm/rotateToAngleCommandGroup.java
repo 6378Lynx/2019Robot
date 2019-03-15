@@ -14,15 +14,17 @@ import frc.robot.commands.pneumatic.*;
 
 public class rotateToAngleCommandGroup extends CommandGroup {
   /**
-   * Rotates the arm to 15 degrees - To change degree rotation, change parameter in rotateDegCommand
+   * Rotates the arm to set degrees
    * Should retract both arm phases before rotating, otherwise breaks frame perimeter
    */
-
-  public rotateToAngleCommandGroup(double setPosition) {
-    addParallel(new retractArmCommand());
-    addParallel(new disengageDiscBrakeCommand());
-    
-    addSequential(new rotateDegCommand(setPosition));
-    addSequential(new engageDiscBrakeCommand());
+  public rotateToAngleCommandGroup(double angle, int stage) {
+    addSequential(new retractArmCommand());
+    addSequential(new rotateDegCommand(angle));
+    if(stage == 1){
+      addSequential(new partialArmExtendCommand());
+    }
+    else if(stage == 2) {
+      addSequential(new fullArmExtendCommand());
+    }
   }
 }

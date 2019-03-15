@@ -54,6 +54,8 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   CheesyPID leftPID = new CheesyPID(0,0,0,0);
   @Config.PIDController
   CheesyPID rightPID = new CheesyPID(0,0,0,0);
+  @Config.PIDController
+  CheesyPID gyroPID = new CheesyPID(0,0,0,0);
 
   public DriveSubsystem(){
     //Move forward X feet, divide X by encoder reading for distance per pulse
@@ -62,36 +64,6 @@ public class DriveSubsystem extends Subsystem implements Loggable {
 
     leftPID.setOutputRange(-1, 1);
     rightPID.setOutputRange(-1, 1);
-  }
-
-  //Configs(Using 449's Library to make it easier) - Make it easier to tune values when testing
-
-  //Right Side
-  @Config
-  public void setRightPID(double kP, double kI, double kD, double kF){
-    rightPID.setPID(kP, kI, kD, kF);
-  }
-  @Config
-  public void setRightPulses(double distancePerPulse){
-    rightEncoder.setDistancePerPulse(distancePerPulse);
-  }
-  @Log
-  public int getRightEncoder(){
-    return rightEncoder.getRaw();
-  }
-
-  //Left Side
-  @Config
-  public void setLeftPID(double kP, double kI, double kD, double kF){
-    leftPID.setPID(kP, kI, kD, kF);
-  }
-  @Config
-  public void setLeftPulses(double distancePerPulse){
-    leftEncoder.setDistancePerPulse(distancePerPulse);
-  }
-  @Log
-  public int getLeftEncoder(){
-    return leftEncoder.getRaw();
   }
 
     
@@ -118,19 +90,61 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   }
 
   //USED IN AUTO
-  public void setAutonDrive(double setpoint, double leftMotionFeedForward, double rightMotionFeedForward){
+  public void setAutonDrive(double setpoint, double gyroAngle, double leftMotionFeedForward, double rightMotionFeedForward){
     currentTime = Timer.getFPGATimestamp();
     leftPID.setSetpoint(setpoint);
     rightPID.setSetpoint(setpoint);
+    gyroPID.setSetpoint(gyroAngle);
     //calculate dT if its not the first loop, otherwise just use 0.02 (50Hz)
-    leftMotor.set(leftPID.calculate(leftEncoder.getRaw(), prevTime == Double.NaN ? 0.02 : currentTime-prevTime) + leftMotionFeedForward );
-    rightMotor.set(rightPID.calculate(rightEncoder.getRaw(), prevTime == Double.NaN ? 0.02 : currentTime-prevTime) + rightMotionFeedForward );
+    double dt = prevTime == Double.NaN ? 0.02 : currentTime-prevTime;
+    double leftOut = leftPID.calculate(leftEncoder.getRaw(), dt) + leftMotionFeedForward;
+    double rightOut= rightPID.calculate(rightEncoder.getRaw(), dt) + rightMotionFeedForward;
+    double straightOut = gyroPID.calculate(gyro.getAngle(), dt);
+    drive.tankDrive(leftOut+straightOut, rightOut-straightOut);
     prevTime = currentTime;
-
   }
+
+  public void turnToAngle(double angle){
+    currentTime = Timer.getFPGATimestamp();
+    double dt = prevTime == Double.NaN ? 0.02 : currentTime-prevTime;
+    gyroPID.setSetpoint(angle);
+    double output = gyroPID.calculate(gyro.getAngle(), dt);
+    drive.tankDrive(output,-output);
+    prevTime = currentTime;
+  }
+
+
+
   
+  //Configs(Using 449's Library to make it easier) - Make it easier to tune values when testing
 
+  //Right Side
+  @Config
+  public void setRightPID(double kP, double kI, double kD, double kF){
+    rightPID.setPID(kP, kI, kD, kF);
+  }
+  @Config(defaultValueNumeric = 0.5)
+  public void setRightPulses(double distancePerPulse){
+    rightEncoder.setDistancePerPulse(distancePerPulse);
+  }
+  @Log
+  public double getRightEncoder(){
+    return rightEncoder.getDistance();
+  }
 
+  //Left Side
+  @Config
+  public void setLeftPID(double kP, double kI, double kD, double kF){
+    leftPID.setPID(kP, kI, kD, kF);
+  }
+  @Config(defaultValueNumeric = 0.5)
+  public void setLeftPulses(double distancePerPulse){
+    leftEncoder.setDistancePerPulse(distancePerPulse);
+  }
+  @Log
+  public double getLeftEncoder(){
+    return leftEncoder.getDistance();
+  }
 
 
   @Override
