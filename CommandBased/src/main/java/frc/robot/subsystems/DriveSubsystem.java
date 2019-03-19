@@ -11,14 +11,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.robot.RobotMap;
+import frc.robot.commands.autonomous.DriveForwardCommand;
 import frc.robot.commands.teleopDriveCommand;
 import frc.robot.Robot;
 import frc.robot.CheesyPID;
@@ -30,25 +34,28 @@ import io.github.oblarg.oblog.annotations.Log;
  * Add your docs here.
  */
 public class DriveSubsystem extends Subsystem implements Loggable {
+
+  //Singular motors
   Spark leftBack = new Spark(RobotMap.leftBackPort);
   Spark leftFront = new Spark(RobotMap.leftFrontPort);
   Spark rightBack = new Spark(RobotMap.rightBackPort);
   Spark rightFront = new Spark(RobotMap.rightFrontPort);
+
   //Group Motors
   SpeedControllerGroup leftMotor = new SpeedControllerGroup(leftBack, leftFront);
   SpeedControllerGroup rightMotor = new SpeedControllerGroup(rightBack, rightFront);
+
   //Drive
   DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
+
   //Drive Encoders
   Encoder leftEncoder = new Encoder(RobotMap.leftDriveEncoder_A, RobotMap.leftDriveEncoder_B);
   Encoder rightEncoder = new Encoder(RobotMap.rightDriveEncoder_A, RobotMap.rightDriveEncoder_B);
+
   //Gyro
   @Log.Gyro
-  AnalogGyro gyro = new AnalogGyro(1);
+  Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
-  private double prevTime   = Double.NaN;
-  private double currentTime;
-  
   //Use Constants after tuning
   @Config.PIDController
   CheesyPID leftPID = new CheesyPID(0,0,0,0);
@@ -57,13 +64,18 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   @Config.PIDController
   CheesyPID gyroPID = new CheesyPID(0,0,0,0);
 
+  private double prevTime   = Double.NaN;
+  private double currentTime;
+
   public DriveSubsystem(){
-    //Move forward X feet, divide X by encoder reading for distance per pulse
-    leftEncoder.setDistancePerPulse(0.5);
-    rightEncoder.setDistancePerPulse(0.5);
+    gyro.calibrate();
+
+    leftEncoder.setDistancePerPulse(RobotMap.driveDistPerPulse);
+    rightEncoder.setDistancePerPulse(RobotMap.driveDistPerPulse);
 
     leftPID.setOutputRange(-1, 1);
     rightPID.setOutputRange(-1, 1);
+    gyroPID.setInputRange(-360,360);
   }
 
     

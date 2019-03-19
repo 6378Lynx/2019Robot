@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.CheesyPID;
 import frc.robot.RobotMap;
-import frc.robot.commands.arm.armDefaultCommand;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
@@ -61,7 +60,7 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
   // CONSTRUCTOR -------------------------------------------------
 
   public ShoulderSubsystem() {
-    encoder.setDistancePerPulse(RobotMap.armDistancePerPulse);
+    encoder.setDistancePerPulse(RobotMap.armDistPerPulse);
 
     pid.setInputRange(0, 90);
     pid.setOutputRange(-1, 1);
@@ -76,8 +75,6 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
   // FEEDFORWARD CALCULATION -------------------------------------
 
   // Feedforward Calculation, Added onto PID output
-  // Uses the Centre Of Mass only when arm is retracted fully, as you only rotate
-  // when the arm is retracted otherwise you break frame perimeter
   private double feedforward_voltage() {
     // mgcos(theta)*centreOfMass / gearRatio / stallTorque, convert encoder ticks to
     // angle using scaleFactor
@@ -160,6 +157,7 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new armDefaultCommand());
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
   }
 }

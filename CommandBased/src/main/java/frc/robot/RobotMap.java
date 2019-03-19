@@ -74,11 +74,19 @@ public class RobotMap {
     public static final double gearRatio = gearRatio_1 * gearRatio_2;
     public static final double scaleFactor = (4096 * gearRatio) / 360;
     public static final double stallTorque = 1.4;
-    public static final double armDistancePerPulse = 0.5;
+
 
 
     //PRESET ENCODER READINGS
-    public static final double ticks15deg = 200;
+    private static final double driveEncoderSens = 2048.0;
+    private static final double wheelDiameter = 0.5;
+
+    private static final double armEncoderSens = 2048.0;
+    public static final double armDistPerPulse = (1/ armEncoderSens * gearRatio) * 2 * Math.PI;
+
+    //Wheel Diameter = 6" => 0.5' -> returns distance per pulse in feet
+    public static final double driveDistPerPulse = (1/ driveEncoderSens) * wheelDiameter * Math.PI;
+
     public static final double rocketPosition = 70000;
 
     //PID, Motion Profile
@@ -105,6 +113,7 @@ public class RobotMap {
      * accel = 3.55/ka
      **
      */
+
     public static final double arm_kv = 12.0 / 134.0 ;
     public static final double arm_ka = 12.0 / 1300.0;
     public static final int kDeg = 21;
@@ -112,13 +121,11 @@ public class RobotMap {
     public static final double armMaxAccel = 200;
     public static final double armMaxVel = 50;
 
-
     public static final double drive_kv = 12.0 / 134.0 ;
     public static final double drive_ka = 12.0 / 1300.0;
+    public static final double Vintercept = 1;
 
     public static final double driveMaxAccel = 200;
     public static final double driveMaxVel = 50;
-
-    public static final double Vintercept = 1;
 
 }

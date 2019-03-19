@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.autonomous.DriveForwardCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
@@ -36,7 +37,7 @@ public class Robot extends TimedRobot {
 
     SendableChooser<Command> chooser = new SendableChooser<>();
 
-    Command autonomousCommand;
+    Command autonomousCommand = new DriveForwardCommand(5);
 
     /**
      * This function is run when the robot is first started up and should be
@@ -118,6 +119,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
+        if(oi.controller .getRawAxis(1) > 0.05 || oi.controller.getRawAxis(2) > 0.05){
+            autonomousCommand.cancel();
+        }
         Scheduler.getInstance().run();
     }
 
