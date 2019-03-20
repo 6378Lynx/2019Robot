@@ -11,6 +11,7 @@ package frc.robot;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -34,10 +35,11 @@ public class Robot extends TimedRobot {
     public static PneumaticSubsystem pneumaticSubsystem = new PneumaticSubsystem();
     public static ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
     public static OI oi;
+    private PowerDistributionPanel pdp = new PowerDistributionPanel();
 
     SendableChooser<Command> chooser = new SendableChooser<>();
 
-    Command autonomousCommand = new DriveForwardCommand(5);
+    Command autonomousCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        RobotMap.getVoltageComp = 12 / pdp.getVoltage();
 
         Logger.updateEntries();
         Scheduler.getInstance().run();
@@ -99,7 +102,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        autonomousCommand = chooser.getSelected();
+        autonomousCommand = new DriveForwardCommand(10);
 
         /*
          * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -119,9 +122,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        if(oi.controller .getRawAxis(1) > 0.05 || oi.controller.getRawAxis(2) > 0.05){
+        /*
+        if(oi.controller.getRawAxis(1) > 0.05 || oi.controller.getRawAxis(2) > 0.05){
             autonomousCommand.cancel();
         }
+        */
         Scheduler.getInstance().run();
     }
 

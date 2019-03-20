@@ -81,15 +81,7 @@ public class DriveSubsystem extends Subsystem implements Loggable {
     
   //USED IN TELEOP-PERIODIC
   public void teleopDrive(double frontSpeed, double sideSpeed){
-    //prevent controller drift
-    if(Math.abs(frontSpeed) <= 0.08){
-      frontSpeed = 0;
-    }
 
-    if(Math.abs(sideSpeed) <= 0.08){
-      sideSpeed = 0;
-    }
-    
     //Slow down movement to 1/4 when Right Bumper is pressed
     if(Robot.oi.controller.getBumper(GenericHID.Hand.kRight)){
       drive.curvatureDrive(frontSpeed/4, sideSpeed/4, Robot.oi.controller.getBumper(GenericHID.Hand.kRight));
@@ -97,7 +89,7 @@ public class DriveSubsystem extends Subsystem implements Loggable {
 
     //Otherwise use Right Trigger (weirdly acts as a button on the controller instead of an axis) -> Port 8
     else{
-      drive.curvatureDrive(frontSpeed/1.25, sideSpeed/1.25, Robot.oi.controller.getRawButton(8));
+      drive.curvatureDrive(frontSpeed, sideSpeed, Robot.oi.controller.getRawButton(8));
     }
   }
 
@@ -107,12 +99,18 @@ public class DriveSubsystem extends Subsystem implements Loggable {
     leftPID.setSetpoint(setpoint);
     rightPID.setSetpoint(setpoint);
     gyroPID.setSetpoint(gyroAngle);
+
     //calculate dT if its not the first loop, otherwise just use 0.02 (50Hz)
     double dt = prevTime == Double.NaN ? 0.02 : currentTime-prevTime;
+
     double leftOut = leftPID.calculate(leftEncoder.getRaw(), dt) + leftMotionFeedForward;
     double rightOut= rightPID.calculate(rightEncoder.getRaw(), dt) + rightMotionFeedForward;
     double straightOut = gyroPID.calculate(gyro.getAngle(), dt);
+
     drive.tankDrive(leftOut+straightOut, rightOut-straightOut);
+
+    System.out.printf("Left Output: %f | Right Output %f | Left FeedForward %f | Right Feedforward %f", leftOut, rightOut, leftMotionFeedForward, rightMotionFeedForward);
+
     prevTime = currentTime;
   }
 

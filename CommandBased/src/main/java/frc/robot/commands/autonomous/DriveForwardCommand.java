@@ -9,6 +9,7 @@ package frc.robot.commands.autonomous;
 
 import com.team254.lib.util.motion.*;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -32,6 +33,7 @@ public class DriveForwardCommand extends Command {
     MotionProfileConstraints leftConstraints = new MotionProfileConstraints(RobotMap.driveMaxVel, RobotMap.driveMaxAccel);
     MotionProfileConstraints rightConstraints = new MotionProfileConstraints(RobotMap.driveMaxVel, RobotMap.driveMaxAccel);
 
+
     leftProfile = MotionProfileGenerator.generateProfile(
       leftConstraints, 
       new MotionProfileGoal(setPosition),
@@ -50,10 +52,13 @@ public class DriveForwardCommand extends Command {
     MotionState leftState = leftProfile.stateByTimeClamped(t);
     MotionState rightState = leftProfile.stateByTimeClamped(t);
 
-    double leftFeedForward = RobotMap.drive_ka * leftState.acc() + RobotMap.drive_kv * leftState.vel() + RobotMap.Vintercept;
-    double rightFeedForward = RobotMap.drive_ka * rightState.acc() + RobotMap.drive_kv * rightState.vel() + RobotMap.Vintercept;
+    //gives output in voltage, need percent out (-1 - 1), convert to percentout (v/totalV)
 
-    Robot.driveSubsystem.setAutonDrive(setPosition, leftFeedForward, rightFeedForward, 0);    
+    double leftFeedForward = (RobotMap.drive_ka * leftState.acc() /12 * RobotMap.getVoltageComp ) + (RobotMap.drive_kv * leftState.vel() /12 * RobotMap.getVoltageComp ) + (RobotMap.Vintercept /12 * RobotMap.getVoltageComp);
+
+    double rightFeedForward = (RobotMap.drive_ka * rightState.acc() /12 * RobotMap.getVoltageComp) + (RobotMap.drive_kv * rightState.vel() /12 * RobotMap.getVoltageComp) + (RobotMap.Vintercept /12 * RobotMap.getVoltageComp) ;
+
+    Robot.driveSubsystem.setAutonDrive(setPosition, 0, leftFeedForward, rightFeedForward);
   }
 
   // Make this return true when this Command no longer needs to run execute()

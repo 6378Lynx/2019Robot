@@ -9,6 +9,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -76,16 +78,15 @@ public class RobotMap {
     public static final double stallTorque = 1.4;
 
 
-
     //PRESET ENCODER READINGS
     private static final double driveEncoderSens = 2048.0;
     private static final double wheelDiameter = 0.5;
 
     private static final double armEncoderSens = 2048.0;
-    public static final double armDistPerPulse = (1/ armEncoderSens * gearRatio) * 2 * Math.PI;
+    public static final double armDistPerPulse = (1 / armEncoderSens * gearRatio) * 2 * Math.PI;
 
     //Wheel Diameter = 6" => 0.5' -> returns distance per pulse in feet
-    public static final double driveDistPerPulse = (1/ driveEncoderSens) * wheelDiameter * Math.PI;
+    public static final double driveDistPerPulse = (1 / driveEncoderSens) * wheelDiameter * Math.PI;
 
     public static final double rocketPosition = 70000;
 
@@ -114,18 +115,21 @@ public class RobotMap {
      **
      */
 
-    public static final double arm_kv = 12.0 / 134.0 ;
+    public static double getVoltageComp;
+
+    public static final double arm_kv = 12.0 / 134.0;
     public static final double arm_ka = 12.0 / 1300.0;
     public static final int kDeg = 21;
 
     public static final double armMaxAccel = 200;
     public static final double armMaxVel = 50;
 
-    public static final double drive_kv = 12.0 / 134.0 ;
-    public static final double drive_ka = 12.0 / 1300.0;
-    public static final double Vintercept = 1;
+    public static final double drive_kv = 0.48;
+    public static final double drive_ka = 0.045;
+    public static final double Vintercept = 1.7;
 
-    public static final double driveMaxAccel = 200;
-    public static final double driveMaxVel = 50;
+    //124
+    public static final double driveMaxAccel = 30;
+    public static final double driveMaxVel = 5;
 
 }
