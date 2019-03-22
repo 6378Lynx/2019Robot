@@ -13,14 +13,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.arm.rotateToAngleCommandGroup;
-import frc.robot.commands.pneumatic.activateClawCommand;
-import frc.robot.commands.pneumatic.partialArmExtendCommand;
-import frc.robot.commands.pneumatic.fullArmExtendCommand;
-import frc.robot.commands.test.backArmTestCommand;
-import frc.robot.commands.test.fwdArmTestCommand;
-import frc.robot.commands.test.stopArmTestCommand;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.arm.CalibrationCommandGroup;
+import frc.robot.commands.arm.RotateToAngleCommandGroup;
+import frc.robot.commands.arm.rotateDegCommand;
 
+import static frc.robot.subsystems.PneumaticSubsystem.ArmState.*;
 
 
 /**
@@ -28,45 +26,65 @@ import frc.robot.commands.test.stopArmTestCommand;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  
-  public XboxController   controller  = new XboxController(RobotMap.controllerPort);
-  
-  public Joystick         joystick    = new Joystick(RobotMap.controllerPort),
-                          operator    = new Joystick(RobotMap.operatorPort);
+    //// CREATING BUTTONS
+    // One type of button is a joystick button which is any button on a
+    //// joystick.
 
-  Button             aButton     = new JoystickButton(joystick, RobotMap.XBOX_A_Button),
-                          bButton     = new JoystickButton(joystick, RobotMap.XBOX_B_Button),
-                          yButton     = new JoystickButton(joystick, RobotMap.XBOX_Y_Button),
-                          xButton     = new JoystickButton(joystick, RobotMap.XBOX_X_Button),
-                          leftBumper  = new JoystickButton(joystick, RobotMap.XBOX_leftBumper);
-
-  public OI() {
-    leftBumper.whenPressed(new activateClawCommand());
-    aButton.whenPressed(new partialArmExtendCommand());
-    bButton.whenPressed(new rotateToAngleCommandGroup(45,1));
-  }
+    public XboxController   controller  = new XboxController(RobotMap.controllerPort);
 
 
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
+    OI() {
+        Joystick joystick    = new Joystick(RobotMap.controllerPort),
+                operator    = new Joystick(RobotMap.operatorPort);
 
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
 
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
+        //DRIVER
+        Button  driverA_Button = new JoystickButton(joystick, RobotMap.DRIVER_A_Button),
+                driverB_Button = new JoystickButton(joystick, RobotMap.DRIVER_B_Button),
+                driverY_Button = new JoystickButton(joystick, RobotMap.DRIVER_Y_Button),
+                driverX_Button = new JoystickButton(joystick, RobotMap.DRIVER_X_Button),
+                driverLeftBumper  = new JoystickButton(joystick, RobotMap.DRIVER_leftBumper),
 
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
+                //OPERATOR
+                operatorStart_Button = new JoystickButton(operator, RobotMap.OPERATOR_startButton),
+                operatorA_Button     = new JoystickButton(operator, RobotMap.OPERATOR_A_Button),
+                operatorB_Button     = new JoystickButton(operator, RobotMap.OPERATOR_B_Button),
+                operatorY_Button     = new JoystickButton(operator, RobotMap.OPERATOR_Y_Button),
+                operatorX_Button     = new JoystickButton(operator, RobotMap.OPERATOR_X_Button),
+                operatorLeftBumper  = new JoystickButton(operator, RobotMap.OPERATOR_leftBumper);
 
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
+
+
+        driverLeftBumper.whenPressed(new InstantCommand(Robot.pneumaticSubsystem::activateClaw));
+        driverA_Button.whenPressed(new InstantCommand(Robot.pneumaticSubsystem::setFrontClimb));
+        driverB_Button.whenPressed(new InstantCommand(Robot.pneumaticSubsystem::setBackClimb));
+
+
+        operatorStart_Button.whenPressed(new CalibrationCommandGroup());
+        operatorA_Button.whenPressed(new RotateToAngleCommandGroup(45));
+        operatorB_Button.whenPressed(new RotateToAngleCommandGroup(60));
+        operatorX_Button.whenPressed(new InstantCommand(() -> Robot.pneumaticSubsystem.actuateArm(partial)));
+        operatorY_Button.whenPressed(new InstantCommand(() -> Robot.pneumaticSubsystem.actuateArm(extended)));
+    }
+
+
+    // There are a few additional built in buttons you can use. Additionally,
+    // by subclassing Button you can create custom triggers and bind those to
+    // commands the same as any other Button.
+
+    //// TRIGGERING COMMANDS WITH BUTTONS
+    // Once you have a button, it's trivial to bind it to a button in one of
+    // three ways:
+
+    // Start the command when the button is pressed and let it run the command
+    // until it is finished as determined by it's isFinished method.
+    // button.whenPressed(new ExampleCommand());
+
+    // Run the command while the button is being held down and interrupt it once
+    // the button is released.
+    // button.whileHeld(new ExampleCommand());
+
+    // Start the command when the button is released and let it run the command
+    // until it is finished as determined by it's isFinished method.
+    // button.whenReleased(new ExampleCommand());
 }

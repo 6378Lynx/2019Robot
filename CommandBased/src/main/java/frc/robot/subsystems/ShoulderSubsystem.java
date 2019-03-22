@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class ShoulderSubsystem extends Subsystem implements Loggable {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public Spark shoulder = new Spark(RobotMap.shoulderPort);
+  private Spark shoulder = new Spark(RobotMap.shoulderPort);
   private Encoder encoder = new Encoder(RobotMap.armEncoder_A, RobotMap.armEncoder_B, false, Encoder.EncodingType.k4X);
 
   private DigitalInput topLimitSwitch = new DigitalInput(RobotMap.limitSwitchTopPort);
@@ -48,14 +48,14 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
 
   private double angle;
 
-  @Log.Graph
+  @Log
   private double accel;
 
   // adjust first and fourth 0's to tune PID
   // CheesyPID = SynchronousPIDF from 254, renamed because it was confusing
   // Change 0's to tune PID
   @Config.PIDController
-  public CheesyPID pid = new CheesyPID(kP, kI, kD, kF);
+  private CheesyPID pid = new CheesyPID(kP, kI, kD, kF);
 
   // CONSTRUCTOR -------------------------------------------------
 
@@ -67,14 +67,11 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
 
   }
 
-  @Config
-  public void setPID(double kP, double kI, double kD, double kF) {
-    pid.setPID(kP, kI, kD, kF);
-  }
-
   // FEEDFORWARD CALCULATION -------------------------------------
 
   // Feedforward Calculation, Added onto PID output
+  // Uses the Centre Of Mass only when arm is retracted fully, as you only rotate
+  // when the arm is retracted otherwise you break frame perimeter
   private double feedforward_voltage() {
     // mgcos(theta)*centreOfMass / gearRatio / stallTorque, convert encoder ticks to
     // angle using scaleFactor
@@ -124,12 +121,12 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
     return bottomLimitSwitch.get();
   }
 
-  @Log.Graph
+  @Log
   public double getPos() {
     return encoder.getDistance() + RobotMap.kDeg;
   }
 
-  @Log.Graph
+  @Log
   public double getVel() {
     return encoder.getRate();
   }

@@ -19,7 +19,10 @@ public class rotateDegCommand extends TimedCommand {
   private MotionProfile profile;
   private double angle;
 
-  public rotateDegCommand(double angle) {
+  /**Rotates arm to set angle
+   * @param angle desired angle
+   */
+  rotateDegCommand(double angle) {
     // Timeout 5 seconds, rotating shouldnt last more than 5
     super(5);
     requires(Robot.shoulderSubsystem);

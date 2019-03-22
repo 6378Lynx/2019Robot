@@ -22,7 +22,7 @@ public class DriveToRocketCommand extends CommandGroup {
     addParallel(new CalibrateArmEncoderCommand());
 
     addSequential(new Turn90DegCommand());
-    addSequential(new DriveForwardCommand(RobotMap.rocketPosition));     
+    addSequential(new DriveForwardCommand(10));
     
     
     // Add Commands here:

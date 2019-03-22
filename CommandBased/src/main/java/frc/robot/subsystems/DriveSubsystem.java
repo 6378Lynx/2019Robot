@@ -9,17 +9,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.robot.RobotMap;
 import frc.robot.commands.autonomous.DriveForwardCommand;
@@ -36,40 +29,39 @@ import io.github.oblarg.oblog.annotations.Log;
 public class DriveSubsystem extends Subsystem implements Loggable {
 
   //Singular motors
-  Spark leftBack = new Spark(RobotMap.leftBackPort);
-  Spark leftFront = new Spark(RobotMap.leftFrontPort);
-  Spark rightBack = new Spark(RobotMap.rightBackPort);
-  Spark rightFront = new Spark(RobotMap.rightFrontPort);
+  private Spark leftBack = new Spark(RobotMap.leftBackPort);
+  private Spark leftFront = new Spark(RobotMap.leftFrontPort);
+
+  private Spark rightBack = new Spark(RobotMap.rightBackPort);
+  private Spark rightFront = new Spark(RobotMap.rightFrontPort);
 
   //Group Motors
-  SpeedControllerGroup leftMotor = new SpeedControllerGroup(leftBack, leftFront);
-  SpeedControllerGroup rightMotor = new SpeedControllerGroup(rightBack, rightFront);
+  private SpeedControllerGroup leftMotor = new SpeedControllerGroup(leftBack, leftFront);
+  private SpeedControllerGroup rightMotor = new SpeedControllerGroup(rightBack, rightFront);
 
   //Drive
-  DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
+  private DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
 
   //Drive Encoders
-  Encoder leftEncoder = new Encoder(RobotMap.leftDriveEncoder_A, RobotMap.leftDriveEncoder_B);
-  Encoder rightEncoder = new Encoder(RobotMap.rightDriveEncoder_A, RobotMap.rightDriveEncoder_B);
+  private Encoder leftEncoder = new Encoder(RobotMap.leftDriveEncoder_A, RobotMap.leftDriveEncoder_B, false, Encoder.EncodingType.k4X);
+  private Encoder rightEncoder = new Encoder(RobotMap.rightDriveEncoder_A, RobotMap.rightDriveEncoder_B, true, Encoder.EncodingType.k4X);
 
   //Gyro
   @Log.Gyro
-  Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+  private Gyro gyro = new ADXRS450_Gyro();
 
   //Use Constants after tuning
   @Config.PIDController
-  CheesyPID leftPID = new CheesyPID(0,0,0,0);
+  private CheesyPID leftPID = new CheesyPID(0,0,0,0);
   @Config.PIDController
-  CheesyPID rightPID = new CheesyPID(0,0,0,0);
+  private CheesyPID rightPID = new CheesyPID(0,0,0,0);
   @Config.PIDController
-  CheesyPID gyroPID = new CheesyPID(0,0,0,0);
+  private CheesyPID gyroPID = new CheesyPID(0,0,0,0);
 
   private double prevTime   = Double.NaN;
   private double currentTime;
 
   public DriveSubsystem(){
-    gyro.calibrate();
-
     leftEncoder.setDistancePerPulse(RobotMap.driveDistPerPulse);
     rightEncoder.setDistancePerPulse(RobotMap.driveDistPerPulse);
 
@@ -129,27 +121,9 @@ public class DriveSubsystem extends Subsystem implements Loggable {
   //Configs(Using 449's Library to make it easier) - Make it easier to tune values when testing
 
   //Right Side
-  @Config
-  public void setRightPID(double kP, double kI, double kD, double kF){
-    rightPID.setPID(kP, kI, kD, kF);
-  }
-  @Config(defaultValueNumeric = 0.5)
-  public void setRightPulses(double distancePerPulse){
-    rightEncoder.setDistancePerPulse(distancePerPulse);
-  }
   @Log
   public double getRightEncoder(){
     return rightEncoder.getDistance();
-  }
-
-  //Left Side
-  @Config
-  public void setLeftPID(double kP, double kI, double kD, double kF){
-    leftPID.setPID(kP, kI, kD, kF);
-  }
-  @Config(defaultValueNumeric = 0.5)
-  public void setLeftPulses(double distancePerPulse){
-    leftEncoder.setDistancePerPulse(distancePerPulse);
   }
   @Log
   public double getLeftEncoder(){

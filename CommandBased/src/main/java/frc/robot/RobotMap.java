@@ -19,14 +19,14 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
  */
 public class RobotMap {
 
-    // Motors
+    // PWM
     public static final int leftFrontPort = 0;
     public static final int leftBackPort = 1;
     public static final int rightFrontPort = 2;
     public static final int rightBackPort = 3;
     public static final int shoulderPort = 4;
 
-    //DIGITAL INPUTS
+    //DIO
     public static final int leftDriveEncoder_A = 0;
     public static final int leftDriveEncoder_B = 1;
     public static final int rightDriveEncoder_A = 2;
@@ -36,7 +36,7 @@ public class RobotMap {
     public static final int limitSwitchTopPort = 6;
     public static final int limitSwitchBotPort = 7;
 
-    //Pneumatics - PCM 0
+    //PCM 0
     public static final int pistonOne_1 = 0;
     public static final int pistonOne_2 = 1;
 
@@ -49,46 +49,60 @@ public class RobotMap {
     public static final int discBrake_1 = 6;
     public static final int discBrake_2 = 7;
 
-    //Pneumatics - PCM 1
+    //PCM 1
+    public static final int front_1 = 0;
+    public static final int front_2 = 1;
+    public static final int back_1 = 2;
+    public static final int back_2 = 3;
+
 
 
     //XBOX Controller / JOYSTICK PORTS
-    public static final int controllerPort = 0;
-    public static final int operatorPort = 1;
+    static final int controllerPort = 0;
+    static final int operatorPort = 1;
 
-    public static final int XBOX_A_Button = 2;
-    public static final int XBOX_B_Button = 3;
-    public static final int XBOX_X_Button = 1;
-    public static final int XBOX_Y_Button = 4;
-    public static final int XBOX_leftBumper = 5;
-    public static final int XBOX_rightBumper = 6;
-    public static final int XBOX_backButton = 7;
-    public static final int XBOX_startButton = 8;
+    static final int DRIVER_A_Button = 2;
+    static final int DRIVER_B_Button = 3;
+    static final int DRIVER_X_Button = 1;
+    static final int DRIVER_Y_Button = 4;
+    static final int DRIVER_leftBumper = 5;
+    public static final int DRIVER_rightBumper = 6;
+    public static final int DRIVER_backButton = 7;
+    public static final int DRIVER_startButton = 8;
 
     //XBOX Controller / OPERATOR PORTS
+
+    static final int OPERATOR_A_Button = 1;
+    static final int OPERATOR_B_Button = 2;
+    static final int OPERATOR_X_Button = 3;
+    static final int OPERATOR_Y_Button = 4;
+    static final int OPERATOR_leftBumper = 5;
+    static final int OPERATOR_rightBumper = 6;
+    static final int OPERATOR_backButton = 7;
+    static final int OPERATOR_startButton = 8;
 
 
     //Components for Arm Torque Calculation
     public static final double armMass = 12.5;
     public static final double centreOfMass = 0.79;
-    public static final double gearRatio_1 = 1.0 / 63.0;
-    public static final double gearRatio_2 = 16.0 / 66.0;
+    private static final double gearRatio_1 = 1.0 / 63.0;
+    private static final double gearRatio_2 = 16.0 / 66.0;
     public static final double gearRatio = gearRatio_1 * gearRatio_2;
     public static final double scaleFactor = (4096 * gearRatio) / 360;
     public static final double stallTorque = 1.4;
 
 
     //PRESET ENCODER READINGS
-    private static final double driveEncoderSens = 2048.0;
+    private static final double driveEncoderSens = 1024.0;
     private static final double wheelDiameter = 0.5;
 
-    private static final double armEncoderSens = 2048.0;
-    public static final double armDistPerPulse = (1 / armEncoderSens * gearRatio) * 2 * Math.PI;
+    private static final double encoderPulsePerRev = 1024.0;
+    public static final double armDistPerPulse = (1 / encoderPulsePerRev * gearRatio) * 360;
 
     //Wheel Diameter = 6" => 0.5' -> returns distance per pulse in feet
     public static final double driveDistPerPulse = (1 / driveEncoderSens) * wheelDiameter * Math.PI;
 
-    public static final double rocketPosition = 70000;
+
 
     //PID, Motion Profile
     public static final double kP = 0;
