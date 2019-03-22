@@ -48,15 +48,15 @@ public class DriveSubsystem extends Subsystem implements Loggable {
 
   //Gyro
   @Log.Gyro
-  private Gyro gyro = new ADXRS450_Gyro();
+  Gyro gyro = new ADXRS450_Gyro();
 
   //Use Constants after tuning
   @Config.PIDController
-  private CheesyPID leftPID = new CheesyPID(0,0,0,0);
+  CheesyPID leftPID = new CheesyPID(0,0,0,0);
   @Config.PIDController
-  private CheesyPID rightPID = new CheesyPID(0,0,0,0);
+  CheesyPID rightPID = new CheesyPID(0,0,0,0);
   @Config.PIDController
-  private CheesyPID gyroPID = new CheesyPID(0,0,0,0);
+  CheesyPID gyroPID = new CheesyPID(0,0,0,0);
 
   private double prevTime   = Double.NaN;
   private double currentTime;

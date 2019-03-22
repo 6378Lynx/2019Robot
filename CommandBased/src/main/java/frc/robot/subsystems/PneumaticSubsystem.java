@@ -55,7 +55,6 @@ public class PneumaticSubsystem extends Subsystem implements Loggable{
     }
   }
 
-  @Log.ToString
   public ArmState getArmState(){
     return state;
   }

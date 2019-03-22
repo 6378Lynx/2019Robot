@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 
     SendableChooser<Command> chooser = new SendableChooser<>();
 
-    private Command autonomousCommand;
+    Command autonomousCommand;
 
     /**
      * This function is run when the robot is first started up and should be used
