@@ -79,7 +79,7 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
     // 2pi / total encoder ticks
 
     // Mechanical Torque on Arm -> M*G * Centre Of Mass * cos(currentAngle)
-    double kf = RobotMap.armMass * 9.8 * Math.cos(Math.toRadians(encoder.getDistance()) + RobotMap.kDeg)
+    double kf = RobotMap.armMass * 9.8 * Math.cos(Math.toRadians(encoder.getDistance() + RobotMap.kDeg))
         * RobotMap.centreOfMass;
     // Calculate Feedforward Voltage -> Mechanical Torque / Stall Torque / gear
     // ratio
