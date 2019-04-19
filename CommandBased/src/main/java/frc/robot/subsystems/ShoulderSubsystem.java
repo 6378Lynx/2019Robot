@@ -73,13 +73,11 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
   // Uses the Centre Of Mass only when arm is retracted fully, as you only rotate
   // when the arm is retracted otherwise you break frame perimeter
   private double feedforward_voltage() {
-    // mgcos(theta)*centreOfMass / gearRatio / stallTorque, convert encoder ticks to
-    // angle using scaleFactor
-    // Current Angle in Radians -> current encoder position * 16/66(gear Ratio) *
-    // 2pi / total encoder ticks
+    // mgcos(theta)*centreOfMass / gearRatio / stallTorque
+    // Angle is in degrees from distPerPulse
 
     // Mechanical Torque on Arm -> M*G * Centre Of Mass * cos(currentAngle)
-    double kf = RobotMap.armMass * 9.8 * Math.cos(Math.toRadians(encoder.getDistance() + RobotMap.kDeg))
+    double kf = RobotMap.armMass * 9.8 * Math.cos(this.getPos())
         * RobotMap.centreOfMass;
     // Calculate Feedforward Voltage -> Mechanical Torque / Stall Torque / gear
     // ratio
@@ -123,6 +121,7 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
 
   @Log
   public double getPos() {
+    //Current position, takes encoder position and adds the constant degree that the arm is from the horizontal at its lowest position
     return encoder.getDistance() + RobotMap.kDeg;
   }
 
