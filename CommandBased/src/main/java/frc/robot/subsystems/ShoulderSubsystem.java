@@ -70,23 +70,18 @@ public class ShoulderSubsystem extends Subsystem implements Loggable {
   // FEEDFORWARD CALCULATION -------------------------------------
 
   // Feedforward Calculation, Added onto PID output
-  // Uses the Centre Of Mass only when arm is retracted fully, as you only rotate
-  // when the arm is retracted otherwise you break frame perimeter
   private double feedforward_voltage() {
-    // mgcos(theta)*centreOfMass / gearRatio / stallTorque
-    // Angle is in degrees from distPerPulse
-
-    // Mechanical Torque on Arm -> M*G * Centre Of Mass * cos(currentAngle)
+    // mgcos(currentAngle)*centreOfMass / gearRatio / stallTorque
+    
+    // Mechanical Torque = M*G * Centre Of Mass * cos(currentAngle)
     double kf = RobotMap.armMass * 9.8 * Math.cos(this.getPos())
         * RobotMap.centreOfMass;
-    // Calculate Feedforward Voltage -> Mechanical Torque / Stall Torque / gear
-    // ratio
+    // Mechanical Torque / Stall Torque / gearRatio
     kf = (kf * RobotMap.gearRatio) / RobotMap.stallTorque;
     return kf;
   }
 
   // SET DEGREES USING PID ----------------------------------------
-
   public void setDegrees(double angle, double motion_feedforward) {
     this.angle = angle;
     currentTime = Timer.getFPGATimestamp();
